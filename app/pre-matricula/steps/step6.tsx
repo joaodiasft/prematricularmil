@@ -10,7 +10,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Calendar, Clock, MapPin, AlertCircle, Check, ArrowRight, ArrowLeft, Sun, Moon, FileText } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import { format, addDays } from "date-fns"
-import { ptBR } from "date-fns/locale/pt-BR"
+import ptBR from "date-fns/locale/pt-BR"
 
 interface Step6Props {
   onNext: () => void

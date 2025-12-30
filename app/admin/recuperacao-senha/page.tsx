@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Search, Lock, AlertTriangle, CheckCircle, Clock } from "lucide-react"
 import { format } from "date-fns"
-import { ptBR } from "date-fns/locale/pt-BR"
+import ptBR from "date-fns/locale/pt-BR"
 
 interface PasswordResetAttempt {
   id: string

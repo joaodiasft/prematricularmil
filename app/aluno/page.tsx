@@ -23,7 +23,7 @@ import {
 } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import { format } from "date-fns"
-import { ptBR } from "date-fns/locale/pt-BR"
+import ptBR from "date-fns/locale/pt-BR"
 
 export default function AlunoPage() {
   const { data: session, status } = useSession()

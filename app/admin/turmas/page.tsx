@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Plus, Calendar, Clock, GraduationCap, Eye, Edit, Users, X } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import { format } from "date-fns"
-import { ptBR } from "date-fns/locale/pt-BR"
+import ptBR from "date-fns/locale/pt-BR"
 
 interface Class {
   id: string
@@ -601,8 +601,10 @@ export default function TurmasPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-6">
-            {Object.entries(studentsByToken).map(([token, students]) => (
-              <Card key={token}>
+            {Object.entries(studentsByToken).map(([token, students]) => {
+              const studentsArray = Array.isArray(students) ? students : []
+              return (
+                <Card key={token}>
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -610,14 +612,14 @@ export default function TurmasPage() {
                         {token}
                       </Badge>
                       <span className="text-sm text-gray-600">
-                        {students.length} pré-matrícula(s) com este token
+                        {studentsArray.length} pré-matrícula(s) com este token
                       </span>
                     </div>
                   </div>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
-                    {students.map((student) => (
+                    {studentsArray.map((student: any) => (
                       <div key={student.id} className="border-l-4 border-l-primary pl-4 space-y-2">
                         <div className="flex items-start justify-between">
                           <div className="flex-1">
@@ -663,7 +665,8 @@ export default function TurmasPage() {
                   </div>
                 </CardContent>
               </Card>
-            ))}
+              )
+            })}
             {Object.keys(studentsByToken).length === 0 && (
               <div className="text-center py-8 text-gray-500">
                 Nenhum aluno cadastrado nesta turma ainda

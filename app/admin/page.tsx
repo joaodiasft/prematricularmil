@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { TrendingUp, Users, GraduationCap, BarChart3, Activity, AlertTriangle, CheckCircle, Clock, XCircle, List, DollarSign, Calendar } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { format } from "date-fns"
-import { ptBR } from "date-fns/locale/pt-BR"
+import ptBR from "date-fns/locale/pt-BR"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 

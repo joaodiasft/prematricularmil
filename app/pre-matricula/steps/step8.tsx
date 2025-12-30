@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { CheckCircle2, Calendar, Clock, MapPin, FileText, Download, Mail, MessageCircle, ArrowLeft } from "lucide-react"
 import { format } from "date-fns"
-import { ptBR } from "date-fns/locale/pt-BR"
+import ptBR from "date-fns/locale/pt-BR"
 
 interface Step8Props {
   onBack: () => void
