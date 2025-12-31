@@ -1,12 +1,18 @@
-import { PrismaClient, SubjectType, EducationLevel, ClassShift, PlanType } from "@prisma/client"
+import {
+  PrismaClient,
+  SubjectType,
+  EducationLevel,
+  ClassShift,
+  PlanType,
+} from "@prisma/client";
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 async function main() {
-  console.log("🌱 Iniciando seed do banco de dados...")
+  console.log("🌱 Iniciando seed do banco de dados...");
 
   // Criar Matérias
-  console.log("📚 Criando matérias...")
+  console.log("📚 Criando matérias...");
   const redacao = await prisma.subject.upsert({
     where: { id: "redacao" },
     update: {},
@@ -17,7 +23,7 @@ async function main() {
       price: 300.0,
       description: "Curso de redação para ENEM e vestibulares",
     },
-  })
+  });
 
   const exatas = await prisma.subject.upsert({
     where: { id: "exatas" },
@@ -29,7 +35,7 @@ async function main() {
       price: 350.0,
       description: "Matemática, Física e Química integradas",
     },
-  })
+  });
 
   const gramatica = await prisma.subject.upsert({
     where: { id: "gramatica" },
@@ -39,9 +45,9 @@ async function main() {
       name: "Gramática",
       type: SubjectType.GRAMATICA,
       price: 200.0,
-      description: "Gramática aplicada",
+      description: "Gramática ",
     },
-  })
+  });
 
   const matematica = await prisma.subject.upsert({
     where: { id: "matematica" },
@@ -51,18 +57,25 @@ async function main() {
       name: "Matemática",
       type: SubjectType.MATEMATICA,
       price: 200.0,
-      description: "Matemática personalizada",
+      description: "Matemática",
     },
-  })
+  });
 
   // Criar Turmas - Ensino Médio
-  console.log("👥 Criando turmas do Ensino Médio...")
+  console.log("👥 Criando turmas do Ensino Médio...");
+
+  // EX1 - Exatas
   const ex1 = await prisma.class.upsert({
     where: { code: "EX1" },
-    update: {},
+    update: {
+      teacher: "Adriano, Bruno e Marcos",
+      description:
+        "Matemática, Física e Química. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
     create: {
       code: "EX1",
-      name: "Exatas Integrado",
+      name: "Exatas (Matemática, Física e Química)",
       subjectId: exatas.id,
       educationLevel: EducationLevel.HIGH_SCHOOL,
       dayOfWeek: "Segunda-feira",
@@ -71,18 +84,26 @@ async function main() {
       maxCapacity: 30,
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
-    },
-  })
+      teacher: "Adriano, Bruno e Marcos",
+      description:
+        "Matemática, Física e Química. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
+  });
 
+  // G1 - Gramática
   const g1 = await prisma.class.upsert({
     where: { code: "G1" },
     update: {
       startTime: "19:00",
       endTime: "20:30",
-    },
+      teacher: "Professora: Martinha",
+      description: "Gramática Atual. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
     create: {
       code: "G1",
-      name: "Gramática Aplicada",
+      name: "Gramática",
       subjectId: gramatica.id,
       educationLevel: EducationLevel.HIGH_SCHOOL,
       dayOfWeek: "Sexta-feira",
@@ -91,32 +112,20 @@ async function main() {
       maxCapacity: 30,
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
-    },
-  })
+      teacher: "Professora: Martinha",
+      description: "Gramática Atual. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
+  });
 
-  const m1 = await prisma.class.upsert({
-    where: { code: "M1" },
-    update: {
-      startTime: "18:40",
-      endTime: "19:40",
-    },
-    create: {
-      code: "M1",
-      name: "Matemática Personalizada",
-      subjectId: matematica.id,
-      educationLevel: EducationLevel.HIGH_SCHOOL,
-      dayOfWeek: "Quarta-feira",
-      startTime: "18:40",
-      endTime: "19:40",
-      maxCapacity: 30,
-      currentCapacity: 0,
-      shift: ClassShift.NIGHT,
-    },
-  })
-
+  // R1 - Redação
   const r1 = await prisma.class.upsert({
     where: { code: "R1" },
-    update: {},
+    update: {
+      teacher: "Professora: Martinha",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
     create: {
       code: "R1",
       name: "Redação",
@@ -128,16 +137,23 @@ async function main() {
       maxCapacity: 30,
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
-    },
-  })
+      teacher: "Professora: Martinha",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
+  });
 
+  // R2 - Redação
   const r2 = await prisma.class.upsert({
     where: { code: "R2" },
     update: {
       dayOfWeek: "Terça-feira",
       startTime: "19:30",
       endTime: "21:00",
-    },
+      teacher: "Professora: Martinha",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
     create: {
       code: "R2",
       name: "Redação",
@@ -149,14 +165,79 @@ async function main() {
       maxCapacity: 30,
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
-    },
-  })
+      teacher: "Professora: Martinha",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
+  });
+
+  // M1 - Matemática
+  const m1 = await prisma.class.upsert({
+    where: { code: "M1" },
+    update: {
+      startTime: "18:40",
+      endTime: "20:10",
+      teacher: "Professor: Michael",
+      description:
+        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
+    create: {
+      code: "M1",
+      name: "Matemática ",
+      subjectId: matematica.id,
+      educationLevel: EducationLevel.HIGH_SCHOOL,
+      dayOfWeek: "Quarta-feira",
+      startTime: "18:40",
+      endTime: "20:10",
+      maxCapacity: 30,
+      currentCapacity: 0,
+      shift: ClassShift.NIGHT,
+      teacher: "Professor: Michael",
+      description:
+        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
+  });
+
+  // M2 - Matemática
+  const m2 = await prisma.class.upsert({
+    where: { code: "M2" },
+    update: {
+      startTime: "18:40",
+      endTime: "19:40",
+      teacher: "Professor: Michael",
+      description:
+        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
+    create: {
+      code: "M2",
+      name: "Matemática",
+      subjectId: matematica.id,
+      educationLevel: EducationLevel.HIGH_SCHOOL,
+      dayOfWeek: "Quarta-feira",
+      startTime: "18:40",
+      endTime: "19:40",
+      maxCapacity: 30,
+      currentCapacity: 0,
+      shift: ClassShift.NIGHT,
+      teacher: "Professor: Michael",
+      description:
+        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
+  });
 
   // Criar Turmas - Ensino Fundamental
-  console.log("👥 Criando turmas do Ensino Fundamental...")
+  console.log("👥 Criando turmas do Ensino Fundamental...");
   const r5 = await prisma.class.upsert({
     where: { code: "R5" },
-    update: {},
+    update: {
+      teacher: "Professora: Martinha",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
     create: {
       code: "R5",
       name: "Redação",
@@ -168,12 +249,19 @@ async function main() {
       maxCapacity: 30,
       currentCapacity: 0,
       shift: ClassShift.MORNING,
-    },
-  })
+      teacher: "Professora: Martinha",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
+  });
 
   const r6 = await prisma.class.upsert({
     where: { code: "R6" },
-    update: {},
+    update: {
+      teacher: "Professora: Martinha",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
     create: {
       code: "R6",
       name: "Redação",
@@ -185,28 +273,14 @@ async function main() {
       maxCapacity: 30,
       currentCapacity: 0,
       shift: ClassShift.MORNING,
-    },
-  })
-
-  const m2 = await prisma.class.upsert({
-    where: { code: "M2" },
-    update: {},
-    create: {
-      code: "M2",
-      name: "Matemática Personalizada",
-      subjectId: matematica.id,
-      educationLevel: EducationLevel.MIDDLE_SCHOOL,
-      dayOfWeek: "Quarta-feira",
-      startTime: "19:20",
-      endTime: "20:40",
-      maxCapacity: 30,
-      currentCapacity: 0,
-      shift: ClassShift.NIGHT,
-    },
-  })
+      teacher: "Professora: Martinha",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      location: "Presencial - Goiânia",
+    } as any,
+  });
 
   // Criar Planos
-  console.log("💳 Criando planos...")
+  console.log("💳 Criando planos...");
   const planoFoco = await prisma.plan.upsert({
     where: { id: "foco" },
     update: {},
@@ -217,7 +291,7 @@ async function main() {
       modules: 1,
       description: "Essencial para começar",
     },
-  })
+  });
 
   const planoIntensivo = await prisma.plan.upsert({
     where: { id: "intensivo" },
@@ -229,7 +303,7 @@ async function main() {
       modules: 2,
       description: "Mais prática escrita",
     },
-  })
+  });
 
   const planoEvolucao = await prisma.plan.upsert({
     where: { id: "evolucao" },
@@ -241,7 +315,7 @@ async function main() {
       modules: 3,
       description: "Equilíbrio ideal",
     },
-  })
+  });
 
   const planoAprovacao1 = await prisma.plan.upsert({
     where: { id: "aprovacao1" },
@@ -253,7 +327,7 @@ async function main() {
       modules: 4,
       description: "O favorito dos alunos",
     },
-  })
+  });
 
   const planoAprovacao2 = await prisma.plan.upsert({
     where: { id: "aprovacao2" },
@@ -265,7 +339,7 @@ async function main() {
       modules: 5,
       description: "O favorito dos alunos",
     },
-  })
+  });
 
   const planoNota1000 = await prisma.plan.upsert({
     where: { id: "nota1000" },
@@ -277,39 +351,41 @@ async function main() {
       modules: 9,
       description: "Acompanhamento VIP",
     },
-  })
+  });
 
   // Criar configurações do sistema
-  console.log("⚙️ Criando configurações do sistema...")
+  console.log("⚙️ Criando configurações do sistema...");
   await prisma.systemConfig.upsert({
     where: { key: "success_message" },
     update: {},
     create: {
       key: "success_message",
-      value: "Parabéns! Sua pré-matrícula foi realizada com sucesso.\nPara confirmar sua vaga, é necessário comparecer presencialmente na unidade do curso levando:\n- Documento de Identidade (RG)\n- CPF\n- Comprovante de Residência",
+      value:
+        "Parabéns! Sua pré-matrícula foi realizada com sucesso.\nPara confirmar sua vaga, é necessário comparecer presencialmente na unidade do curso levando:\n- Documento de Identidade (RG)\n- CPF\n- Comprovante de Residência",
       description: "Mensagem exibida na tela de sucesso",
     },
-  })
+  });
 
   await prisma.systemConfig.upsert({
     where: { key: "whatsapp_message" },
     update: {},
     create: {
       key: "whatsapp_message",
-      value: "Olá {nome_aluno}, tudo bem? Aqui é da secretaria do Redação Nota Mil. Recebemos sua pré-matrícula e gostaríamos de confirmar alguns dados. Podemos falar agora?",
+      value:
+        "Olá {nome_aluno}, tudo bem? Aqui é da secretaria do Redação Nota Mil. Recebemos sua pré-matrícula e gostaríamos de confirmar alguns dados. Podemos falar agora?",
       description: "Mensagem padrão do WhatsApp",
     },
-  })
+  });
 
   await prisma.systemConfig.upsert({
     where: { key: "scheduling_start_date" },
     update: {},
     create: {
       key: "scheduling_start_date",
-      value: "2026-01-05",
+      value: "2026-01-06",
       description: "Data inicial para agendamento",
     },
-  })
+  });
 
   await prisma.systemConfig.upsert({
     where: { key: "max_vacancies_per_slot" },
@@ -319,17 +395,16 @@ async function main() {
       value: "15",
       description: "Limite de vagas por horário",
     },
-  })
+  });
 
-  console.log("✅ Seed concluído com sucesso!")
+  console.log("✅ Seed concluído com sucesso!");
 }
 
 main()
   .catch((e) => {
-    console.error(e)
-    process.exit(1)
+    console.error(e);
+    process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect()
-  })
-
+    await prisma.$disconnect();
+  });

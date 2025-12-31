@@ -196,16 +196,23 @@ export default function Step5({ onNext, onBack }: Step5Props) {
               {selectedClasses.map((classItem) => (
                 <div key={classItem.id} className="flex items-center justify-between p-3 bg-white rounded-lg border">
                   <div className="flex-1">
-                    <div className="font-semibold">{classItem.subject.name} - {classItem.name}</div>
-                    <div className="text-sm text-gray-600 flex items-center gap-4 mt-1">
-                      <span className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        {classItem.dayOfWeek}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="h-3 w-3" />
-                        {classItem.startTime} às {classItem.endTime}
-                      </span>
+                    <div className="font-semibold">{classItem.code} - {classItem.name}</div>
+                    <div className="text-sm text-gray-600 mt-1">
+                      {classItem.teacher && (
+                        <div className="mb-1">
+                          <span className="font-medium">Professor(a):</span> {classItem.teacher}
+                        </div>
+                      )}
+                      <div className="flex items-center gap-4">
+                        <span className="flex items-center gap-1">
+                          <Calendar className="h-3 w-3" />
+                          {classItem.dayOfWeek}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <Clock className="h-3 w-3" />
+                          {classItem.startTime} às {classItem.endTime}
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div className="text-right">

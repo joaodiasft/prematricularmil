@@ -223,13 +223,14 @@ export default function Step2({ onNext }: Step2Props) {
                   <SelectValue placeholder="Selecione sua série" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="7ef">7º Ensino Fundamental</SelectItem>
-                  <SelectItem value="8ef">8º Ensino Fundamental</SelectItem>
-                  <SelectItem value="9ef">9º Ensino Fundamental</SelectItem>
-                  <SelectItem value="1em">1º Ensino Médio</SelectItem>
-                  <SelectItem value="2em">2º Ensino Médio</SelectItem>
-                  <SelectItem value="3em">3º Ensino Médio</SelectItem>
-                  <SelectItem value="pre-vestibular">Pré-vestibular</SelectItem>
+                  <SelectItem value="6ef">6º ano do Ensino Fundamental</SelectItem>
+                  <SelectItem value="7ef">7º ano do Ensino Fundamental</SelectItem>
+                  <SelectItem value="8ef">8º ano do Ensino Fundamental</SelectItem>
+                  <SelectItem value="9ef">9º ano do Ensino Fundamental</SelectItem>
+                  <SelectItem value="1em">1ª série do Ensino Médio</SelectItem>
+                  <SelectItem value="2em">2ª série do Ensino Médio</SelectItem>
+                  <SelectItem value="3em">3ª série do Ensino Médio</SelectItem>
+                  <SelectItem value="vestibular">Vestibular</SelectItem>
                   <SelectItem value="concurso">Concurso</SelectItem>
                 </SelectContent>
               </Select>

@@ -43,25 +43,33 @@ export default function EditarDadosPage() {
       const response = await fetch("/api/pre-enrollment/latest")
       if (response.ok) {
         const data = await response.json()
-        setEnrollment(data)
-        setFormData({
-          fullName: data.fullName || "",
-          email: data.email || "",
-          age: data.age?.toString() || "",
-          phone: data.phone || "",
-          whatsapp: data.whatsapp || "",
-          instagram: data.instagram || "",
-          currentSchool: data.currentSchool || "",
-          currentGrade: data.currentGrade || "",
-        })
+        if (data && data.id) {
+          setEnrollment(data)
+          setFormData({
+            fullName: data.fullName || "",
+            email: data.email || "",
+            age: data.age?.toString() || "",
+            phone: data.phone || "",
+            whatsapp: data.whatsapp || "",
+            instagram: data.instagram || "",
+            currentSchool: data.currentSchool || "",
+            currentGrade: data.currentGrade || "",
+          })
+        } else {
+          throw new Error("Dados inválidos recebidos")
+        }
+      } else {
+        const errorData = await response.json().catch(() => ({}))
+        throw new Error(errorData.error || "Erro ao carregar pré-matrícula")
       }
     } catch (error) {
       console.error("Error fetching enrollment:", error)
       toast({
         title: "Erro",
-        description: "Erro ao carregar dados",
+        description: error instanceof Error ? error.message : "Erro ao carregar dados",
         variant: "destructive",
       })
+      setEnrollment(null)
     } finally {
       setLoading(false)
     }
@@ -69,6 +77,16 @@ export default function EditarDadosPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!enrollment || !enrollment.id) {
+      toast({
+        title: "Erro",
+        description: "Pré-matrícula não encontrada. Por favor, recarregue a página.",
+        variant: "destructive",
+      })
+      return
+    }
+
     setSaving(true)
 
     try {
@@ -79,24 +97,37 @@ export default function EditarDadosPage() {
         },
         body: JSON.stringify({
           enrollmentId: enrollment.id,
-          ...formData,
+          fullName: formData.fullName,
+          email: formData.email,
+          age: formData.age,
+          phone: formData.phone,
+          whatsapp: formData.whatsapp,
+          instagram: formData.instagram,
+          currentSchool: formData.currentSchool,
+          currentGrade: formData.currentGrade,
         }),
       })
+
+      const data = await response.json()
 
       if (response.ok) {
         toast({
           title: "Dados atualizados!",
           description: "Suas informações foram salvas com sucesso",
         })
-        router.push("/aluno")
+        // Atualizar enrollment local
+        setEnrollment({ ...enrollment, ...formData })
+        setTimeout(() => {
+          router.push("/aluno")
+        }, 1000)
       } else {
-        const data = await response.json()
         throw new Error(data.error || "Erro ao atualizar")
       }
     } catch (error) {
+      console.error("Error updating enrollment:", error)
       toast({
         title: "Erro",
-        description: error instanceof Error ? error.message : "Erro ao salvar dados",
+        description: error instanceof Error ? error.message : "Erro ao salvar dados. Tente novamente.",
         variant: "destructive",
       })
     } finally {

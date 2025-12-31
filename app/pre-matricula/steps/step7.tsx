@@ -217,6 +217,11 @@ export default function Step7({ onNext, onBack }: Step7Props) {
                       <span className="text-sm font-semibold">TURMA {index + 1}:</span> {classItem.code} -{" "}
                       {classItem.name}
                     </div>
+                    {classItem.teacher && (
+                      <div>
+                        <span className="text-sm font-semibold">PROFESSOR(A):</span> {classItem.teacher}
+                      </div>
+                    )}
                     <div>
                       <span className="text-sm font-semibold">HORÁRIO:</span> {classItem.dayOfWeek}{" "}
                       - {classItem.startTime} às {classItem.endTime}

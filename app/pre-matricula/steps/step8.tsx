@@ -2,10 +2,11 @@
 
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
+import { signOut } from "next-auth/react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { CheckCircle2, Calendar, Clock, MapPin, FileText, Download, Mail, MessageCircle, ArrowLeft } from "lucide-react"
+import { CheckCircle2, Calendar, Clock, MapPin, FileText, Download, Mail, MessageCircle, ArrowLeft, LogOut } from "lucide-react"
 import { format } from "date-fns"
 import ptBR from "date-fns/locale/pt-BR"
 
@@ -180,6 +181,14 @@ export default function Step8({ onBack }: Step8Props) {
             <ArrowLeft className="mr-2 h-4 w-4" />
             Voltar para o início
           </Link>
+        </Button>
+        <Button 
+          variant="outline" 
+          onClick={() => signOut({ callbackUrl: "/" })}
+          className="border-red-200 text-red-600 hover:bg-red-50"
+        >
+          <LogOut className="mr-2 h-4 w-4" />
+          Sair
         </Button>
       </div>
     </div>
