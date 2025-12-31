@@ -29,6 +29,7 @@ interface SelectedClass {
   dayOfWeek: string
   startTime: string
   endTime: string
+  teacher?: string
   subject: {
     name: string
     type: string
