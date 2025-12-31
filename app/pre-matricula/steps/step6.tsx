@@ -25,8 +25,8 @@ export default function Step6({ onNext, onBack }: Step6Props) {
   const [availableDates, setAvailableDates] = useState<Date[]>([])
 
   useEffect(() => {
-    // Gerar datas disponíveis a partir de 05/01/2026
-    const startDate = new Date(2026, 0, 5)
+    // Gerar datas disponíveis a partir de 06/01/2026
+    const startDate = new Date(2026, 0, 6)
     const dates: Date[] = []
     for (let i = 0; i < 30; i++) {
       const date = addDays(startDate, i)
@@ -254,7 +254,7 @@ export default function Step6({ onNext, onBack }: Step6Props) {
                 <div>
                   <div className="font-semibold text-sm mb-1">Localização</div>
                   <div className="text-sm text-gray-700">
-                    Unidade Centro - Sala 304. Endereço completo será enviado por email após confirmação.
+                    Rua F, R. L-01, Qd.159, Goiânia - GO, 74475-060
                   </div>
                 </div>
               </div>

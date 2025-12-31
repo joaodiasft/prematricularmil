@@ -76,15 +76,18 @@ async function main() {
 
   const g1 = await prisma.class.upsert({
     where: { code: "G1" },
-    update: {},
+    update: {
+      startTime: "19:00",
+      endTime: "20:30",
+    },
     create: {
       code: "G1",
       name: "Gramática Aplicada",
       subjectId: gramatica.id,
       educationLevel: EducationLevel.HIGH_SCHOOL,
       dayOfWeek: "Sexta-feira",
-      startTime: "19:30",
-      endTime: "21:00",
+      startTime: "19:00",
+      endTime: "20:30",
       maxCapacity: 30,
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
@@ -93,15 +96,18 @@ async function main() {
 
   const m1 = await prisma.class.upsert({
     where: { code: "M1" },
-    update: {},
+    update: {
+      startTime: "18:40",
+      endTime: "19:40",
+    },
     create: {
       code: "M1",
       name: "Matemática Personalizada",
       subjectId: matematica.id,
       educationLevel: EducationLevel.HIGH_SCHOOL,
       dayOfWeek: "Quarta-feira",
-      startTime: "19:20",
-      endTime: "20:40",
+      startTime: "18:40",
+      endTime: "19:40",
       maxCapacity: 30,
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
@@ -127,15 +133,19 @@ async function main() {
 
   const r2 = await prisma.class.upsert({
     where: { code: "R2" },
-    update: {},
+    update: {
+      dayOfWeek: "Terça-feira",
+      startTime: "19:30",
+      endTime: "21:00",
+    },
     create: {
       code: "R2",
       name: "Redação",
       subjectId: redacao.id,
       educationLevel: EducationLevel.HIGH_SCHOOL,
-      dayOfWeek: "Quinta-feira",
-      startTime: "18:00",
-      endTime: "19:30",
+      dayOfWeek: "Terça-feira",
+      startTime: "19:30",
+      endTime: "21:00",
       maxCapacity: 30,
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
