@@ -83,63 +83,52 @@ export default function HomePage() {
         >
           {plans.map((plan, index) => (
             <div key={index} className="flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(20%-19.2px)]">
-              <Card className={`relative border-2 flex flex-col h-full transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1 ${plan.popular ? "border-primary shadow-2xl scale-105 bg-gradient-to-br from-primary/10 via-primary/5 to-white ring-4 ring-primary/20" : "border-gray-200 hover:border-primary/50 bg-white"}`}>
+              <Card className={`relative border-2 flex flex-col h-full transition-all duration-300 hover:shadow-xl ${plan.popular ? "border-pink-300 shadow-lg bg-pink-50/30" : "border-gray-200 hover:border-pink-200 bg-white"}`}>
                 {plan.popular && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
-                    <Badge className="bg-gradient-to-r from-primary to-pink-500 text-white px-5 py-2 text-sm font-bold shadow-xl animate-pulse">
-                      ⭐ Mais Escolhido
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
+                    <Badge className="bg-pink-500 text-white px-4 py-1.5 text-sm font-bold shadow-md">
+                      ★ Mais Escolhido
                     </Badge>
                   </div>
                 )}
-                <CardHeader className="text-center pb-4 pt-8 relative overflow-hidden">
-                  {plan.popular && (
-                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16" />
-                  )}
-                  <CardTitle className="text-2xl font-bold mb-4 relative z-10">{plan.name}</CardTitle>
-                  <div className="space-y-3 mb-4 relative z-10">
-                    <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 border-2 border-primary/20">
+                <CardHeader className="text-center pb-4 pt-6">
+                  <CardTitle className="text-2xl font-bold mb-4">{plan.name}</CardTitle>
+                  <div className="space-y-3 mb-4">
+                    <div className={`rounded-lg p-4 ${plan.popular ? "bg-pink-100 border-2 border-pink-200" : "bg-pink-50 border-2 border-pink-100"}`}>
                       <div className="text-xs text-gray-600 mb-1 font-medium">À Vista com Desconto</div>
-                      <div className="flex items-baseline justify-center gap-2">
-                        <div className="text-4xl font-bold text-primary">R$ {plan.priceVista.toFixed(2).replace(".", ",")}</div>
-                      </div>
-                      <div className="flex items-center justify-center gap-2 mt-2">
-                        <div className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-semibold">
-                          💰 Economize R$ {plan.discount.toFixed(2).replace(".", ",")}
-                        </div>
+                      <div className="text-4xl font-bold text-red-600 mb-2">R$ {plan.priceVista.toFixed(2).replace(".", ",")}</div>
+                      <div className="text-xs text-green-600 font-semibold">
+                        Economize R$ {plan.discount.toFixed(2).replace(".", ",")}
                       </div>
                     </div>
-                    <div className="pt-2 border-t border-gray-200">
+                    <div className="pt-2">
                       <div className="text-xs text-gray-500 mb-1">Ou a prazo (sem desconto)</div>
                       <div className="text-lg font-semibold text-gray-400 line-through">R$ {plan.pricePrazo.toFixed(2).replace(".", ",")}</div>
                     </div>
                   </div>
-                  <CardDescription className="font-bold text-primary text-base bg-primary/10 px-4 py-2 rounded-full inline-block">
+                  <CardDescription className={`font-bold text-primary text-base ${plan.popular ? "bg-pink-100" : "bg-pink-50"} px-4 py-2 rounded-full inline-block border border-pink-200`}>
                     {plan.modules} módulo{plan.modules > 1 ? "s" : ""} • {plan.modules * 4} encontros presenciais
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col px-6 pb-6">
                   <div className="mb-4">
-                    <div className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                      <Sparkles className="h-4 w-4 text-primary" />
+                    <div className="text-sm font-semibold text-gray-700 mb-3">
                       Inclui:
                     </div>
-                    <ul className="space-y-3 flex-1">
+                    <ul className="space-y-2.5 flex-1">
                       {plan.features.map((feature: string, i: number) => (
-                        <li key={i} className="flex items-start gap-3">
-                          <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-                            <CheckCircle2 className="h-4 w-4 text-green-600" />
-                          </div>
-                          <span className="text-sm text-gray-700 leading-relaxed font-medium">{feature}</span>
+                        <li key={i} className="flex items-start gap-2">
+                          <CheckCircle2 className="h-5 w-5 text-green-600 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm text-gray-700 leading-relaxed">{feature}</span>
                         </li>
                       ))}
                     </ul>
                   </div>
                   <Link href={session ? "/pre-matricula" : "/auth/register"} className="block mt-auto">
                     <Button 
-                      className={`w-full ${plan.popular ? "bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 shadow-xl text-white" : "bg-primary hover:bg-primary/90"} transition-all duration-300 transform hover:scale-105`} 
+                      className="w-full bg-pink-500 hover:bg-pink-600 text-white transition-all duration-300" 
                       size="lg"
                     >
-                      <Sparkles className="mr-2 h-4 w-4" />
                       Escolher {plan.name}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
