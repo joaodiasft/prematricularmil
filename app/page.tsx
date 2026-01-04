@@ -518,13 +518,13 @@ export default function HomePage() {
               Histórias reais de quem alcançou excelência e aprovação no ENEM e vestibulares
             </p>
           </div>
-          <div className="flex gap-6 overflow-x-auto scroll-smooth px-2 pb-4 max-w-7xl mx-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+          <div className="flex gap-6 overflow-x-auto scroll-smooth px-4 pb-6 max-w-[1800px] mx-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="relative border-2 border-gray-200 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-2 bg-white overflow-hidden group flex-shrink-0 w-[calc(20%-19.2px)] min-w-[280px] max-w-[320px]">
+              <Card key={index} className="relative border-2 border-gray-200 hover:border-primary/50 transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-2 bg-white overflow-hidden group flex-shrink-0 w-full sm:w-[calc(50%-12px)] md:w-[calc(33.333%-16px)] lg:w-[calc(25%-18px)] xl:w-[calc(20%-19.2px)] min-w-[300px] max-w-[360px] snap-start">
                 {/* Decorative top border */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-pink-500 to-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 
-                <CardHeader className="pb-4">
+                <CardHeader className="pb-4 pt-6">
                   {/* Rating Stars */}
                   <div className="flex items-center gap-1 mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
@@ -534,33 +534,26 @@ export default function HomePage() {
                   </div>
                   
                   {/* Quote Icon */}
-                  <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity">
+                  <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-20 transition-opacity pointer-events-none">
                     <MessageSquare className="h-16 w-16 text-primary" />
                   </div>
                   
                   {/* Testimonial Text */}
-                  <CardDescription className="text-base leading-relaxed min-h-[140px] relative z-10 text-gray-700 font-medium">
+                  <CardDescription className="text-base leading-relaxed min-h-[160px] relative z-10 text-gray-700 font-medium pr-4">
                     <span className="text-4xl text-primary/30 font-serif leading-none absolute -top-2 -left-1">"</span>
-                    <span className="relative z-10 pl-6">{testimonial.text}</span>
-                    <span className="text-4xl text-primary/30 font-serif leading-none">"</span>
+                    <span className="relative z-10 pl-6 block">{testimonial.text}</span>
+                    <span className="text-4xl text-primary/30 font-serif leading-none float-right mt-2">"</span>
                   </CardDescription>
                 </CardHeader>
                 
                 <CardContent className="pt-4 border-t border-gray-100 bg-gradient-to-br from-primary/5 via-white to-white">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-pink-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
-                          {testimonial.name.charAt(0)}
-                        </div>
-                        <div>
-                          <div className="font-bold text-gray-900 text-base">{testimonial.name}</div>
-                          <div className="text-xs text-gray-500 mt-0.5">{testimonial.course}</div>
-                        </div>
-                      </div>
+                  <div className="flex items-center gap-3">
+                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-pink-500 flex items-center justify-center text-white font-bold text-lg shadow-lg flex-shrink-0">
+                      {testimonial.name.charAt(0).toUpperCase()}
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Award className="h-5 w-5 text-primary" />
+                    <div className="min-w-0 flex-1">
+                      <div className="font-bold text-gray-900 truncate">{testimonial.name}</div>
+                      <div className="text-sm text-gray-600 truncate">{testimonial.course}</div>
                     </div>
                   </div>
                 </CardContent>
