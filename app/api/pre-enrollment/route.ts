@@ -17,11 +17,22 @@ export async function POST(request: Request) {
     const body = await request.json()
     const { step2, step3, step4, step5, step6 } = body
 
+    console.log("📝 Recebendo pré-matrícula:", {
+      step2: step2 ? Object.keys(step2) : null,
+      step3: step3 ? Object.keys(step3) : null,
+      step4: step4 ? { selectedClasses: step4.selectedClasses } : null,
+      step5: step5 ? Object.keys(step5) : null,
+      step6: step6 ? Object.keys(step6) : null,
+    })
+
     // Obter turmas selecionadas
-    const selectedClasses = step4.selectedClasses || {}
+    const selectedClasses = step4?.selectedClasses || {}
     const classIds = Object.values(selectedClasses) as string[]
     
+    console.log("🎓 Turmas selecionadas:", { selectedClasses, classIds, count: classIds.length })
+    
     if (classIds.length === 0) {
+      console.error("❌ Erro: Nenhuma turma selecionada")
       return NextResponse.json(
         { error: "Nenhuma turma selecionada" },
         { status: 400 }
@@ -77,6 +88,7 @@ export async function POST(request: Request) {
     })
 
     if (existingPending) {
+      console.error("❌ Erro: Usuário já possui pré-matrícula pendente:", existingPending.token)
       return NextResponse.json(
         { error: "Você já possui uma pré-matrícula pendente. Aguarde a análise ou entre em contato." },
         { status: 400 }

@@ -115,7 +115,10 @@ export default function Step7({ onNext, onBack }: Step7Props) {
       })
 
       if (!response.ok) {
-        throw new Error("Erro ao salvar pré-matrícula")
+        const errorData = await response.json().catch(() => ({}))
+        const errorMessage = errorData.error || "Erro ao salvar pré-matrícula"
+        console.error("❌ Erro ao salvar pré-matrícula:", errorData)
+        throw new Error(errorMessage)
       }
 
       // Limpar localStorage
