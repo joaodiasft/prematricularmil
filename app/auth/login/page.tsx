@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { GraduationCap, Mail, Lock, ArrowLeft, Info } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
-import { PreMatriculaGuide } from "@/components/pre-matricula-guide"
+import { PreMatriculaGuide } from "../../components/pre-matricula-guide"
 
 export default function LoginPage() {
   const router = useRouter()
@@ -214,4 +214,3 @@ export default function LoginPage() {
     </div>
   )
 }
-
