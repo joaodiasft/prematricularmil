@@ -70,51 +70,75 @@ export default function HomePage() {
         {canScrollLeft && (
           <button
             onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-3 shadow-lg hover:bg-gray-50 transition-all border-2 border-primary/20 hover:border-primary/40"
+            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-3 shadow-xl hover:bg-primary hover:text-white transition-all border-2 border-primary/30 hover:border-primary"
             aria-label="Plano anterior"
           >
-            <ChevronLeft className="h-6 w-6 text-primary" />
+            <ChevronLeft className="h-6 w-6 text-primary hover:text-white" />
           </button>
         )}
         <div
           ref={scrollContainerRef}
-          className="flex gap-6 overflow-x-auto scroll-smooth px-12 py-4"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          className="flex gap-6 overflow-x-auto scroll-smooth px-12 py-6 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
         >
           {plans.map((plan, index) => (
             <div key={index} className="flex-shrink-0 w-full md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] xl:w-[calc(20%-19.2px)]">
-              <Card className={`relative border-2 flex flex-col h-full transition-all hover:shadow-2xl ${plan.popular ? "border-primary shadow-xl scale-105 bg-gradient-to-br from-primary/5 to-white" : "border-gray-200 hover:border-primary/50"}`}>
+              <Card className={`relative border-2 flex flex-col h-full transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1 ${plan.popular ? "border-primary shadow-2xl scale-105 bg-gradient-to-br from-primary/10 via-primary/5 to-white ring-4 ring-primary/20" : "border-gray-200 hover:border-primary/50 bg-white"}`}>
                 {plan.popular && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                    <Badge className="bg-primary text-white px-4 py-1.5 text-sm font-bold shadow-lg">⭐ Mais Escolhido</Badge>
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-10">
+                    <Badge className="bg-gradient-to-r from-primary to-pink-500 text-white px-5 py-2 text-sm font-bold shadow-xl animate-pulse">
+                      ⭐ Mais Escolhido
+                    </Badge>
                   </div>
                 )}
-                <CardHeader className="text-center pb-4 pt-6">
-                  <CardTitle className="text-2xl font-bold mb-3">{plan.name}</CardTitle>
-                  <div className="space-y-2 mb-3">
-                    <div>
-                      <div className="text-xs text-gray-500 mb-1">À Vista</div>
-                      <div className="text-3xl font-bold text-primary">R$ {plan.priceVista.toFixed(2).replace(".", ",")}</div>
-                      <div className="text-xs text-green-600 font-semibold mt-1">Economize R$ {plan.discount.toFixed(2).replace(".", ",")}</div>
+                <CardHeader className="text-center pb-4 pt-8 relative overflow-hidden">
+                  {plan.popular && (
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16" />
+                  )}
+                  <CardTitle className="text-2xl font-bold mb-4 relative z-10">{plan.name}</CardTitle>
+                  <div className="space-y-3 mb-4 relative z-10">
+                    <div className="bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 border-2 border-primary/20">
+                      <div className="text-xs text-gray-600 mb-1 font-medium">À Vista com Desconto</div>
+                      <div className="flex items-baseline justify-center gap-2">
+                        <div className="text-4xl font-bold text-primary">R$ {plan.priceVista.toFixed(2).replace(".", ",")}</div>
+                      </div>
+                      <div className="flex items-center justify-center gap-2 mt-2">
+                        <div className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full font-semibold">
+                          💰 Economize R$ {plan.discount.toFixed(2).replace(".", ",")}
+                        </div>
+                      </div>
                     </div>
-                    <div className="border-t pt-2">
-                      <div className="text-xs text-gray-500 mb-1">A Prazo</div>
-                      <div className="text-xl font-semibold text-gray-700 line-through">R$ {plan.pricePrazo.toFixed(2).replace(".", ",")}</div>
+                    <div className="pt-2 border-t border-gray-200">
+                      <div className="text-xs text-gray-500 mb-1">Ou a prazo (sem desconto)</div>
+                      <div className="text-lg font-semibold text-gray-400 line-through">R$ {plan.pricePrazo.toFixed(2).replace(".", ",")}</div>
                     </div>
                   </div>
-                  <CardDescription className="font-semibold text-primary">{plan.modules} módulo{plan.modules > 1 ? "s" : ""} • {plan.modules * 4} encontros</CardDescription>
+                  <CardDescription className="font-bold text-primary text-base bg-primary/10 px-4 py-2 rounded-full inline-block">
+                    {plan.modules} módulo{plan.modules > 1 ? "s" : ""} • {plan.modules * 4} encontros presenciais
+                  </CardDescription>
                 </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
-                  <ul className="space-y-2.5 mb-6 flex-1">
-                    {plan.features.map((feature: string, i: number) => (
-                      <li key={i} className="flex items-start gap-2">
-                        <CheckCircle2 className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                        <span className="text-sm text-gray-700 leading-relaxed">{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <CardContent className="flex-1 flex flex-col px-6 pb-6">
+                  <div className="mb-4">
+                    <div className="text-sm font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                      <Sparkles className="h-4 w-4 text-primary" />
+                      Inclui:
+                    </div>
+                    <ul className="space-y-3 flex-1">
+                      {plan.features.map((feature: string, i: number) => (
+                        <li key={i} className="flex items-start gap-3">
+                          <div className="h-6 w-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                            <CheckCircle2 className="h-4 w-4 text-green-600" />
+                          </div>
+                          <span className="text-sm text-gray-700 leading-relaxed font-medium">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                   <Link href={session ? "/pre-matricula" : "/auth/register"} className="block mt-auto">
-                    <Button className={`w-full ${plan.popular ? "shadow-lg" : ""}`} variant={plan.popular ? "default" : "outline"} size="lg">
+                    <Button 
+                      className={`w-full ${plan.popular ? "bg-gradient-to-r from-primary to-pink-500 hover:from-primary/90 hover:to-pink-500/90 shadow-xl text-white" : "bg-primary hover:bg-primary/90"} transition-all duration-300 transform hover:scale-105`} 
+                      size="lg"
+                    >
+                      <Sparkles className="mr-2 h-4 w-4" />
                       Escolher {plan.name}
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
@@ -127,10 +151,10 @@ export default function HomePage() {
         {canScrollRight && (
           <button
             onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-3 shadow-lg hover:bg-gray-50 transition-all border-2 border-primary/20 hover:border-primary/40"
+            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white rounded-full p-3 shadow-xl hover:bg-primary hover:text-white transition-all border-2 border-primary/30 hover:border-primary"
             aria-label="Próximo plano"
           >
-            <ChevronRight className="h-6 w-6 text-primary" />
+            <ChevronRight className="h-6 w-6 text-primary hover:text-white" />
           </button>
         )}
       </div>
@@ -728,55 +752,97 @@ export default function HomePage() {
           {/* Carousel de Planos */}
           <PlansCarousel plans={plans} session={session} />
           
-          <div className="bg-white rounded-2xl p-8 border-2 border-primary/20 shadow-xl max-w-4xl mx-auto mt-12">
-            <div className="text-center mb-6">
-              <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                📋 Informações Importantes
-              </h3>
+          <div className="mt-16 space-y-8">
+            {/* Informações Importantes */}
+            <div className="bg-gradient-to-br from-white via-primary/5 to-white rounded-2xl p-8 lg:p-10 border-2 border-primary/20 shadow-2xl max-w-5xl mx-auto">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 mb-4 shadow-lg">
+                  <Shield className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-2">
+                  Informações Importantes
+                </h3>
+                <p className="text-gray-600">Tudo que você precisa saber sobre nossos planos</p>
+              </div>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div className="flex items-start gap-4 p-4 rounded-xl bg-white/60 hover:bg-white/80 transition-all border border-primary/10">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                    <Zap className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 mb-1 text-lg">Matrícula R$ 100,00</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      Desconto de <strong className="text-primary">50%</strong> ao escolher 2 ou mais cursos
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4 p-4 rounded-xl bg-white/60 hover:bg-white/80 transition-all border border-primary/10">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                    <GraduationCap className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 mb-1 text-lg">Cursos Presenciais</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      Encontros semanais presenciais em <strong className="text-primary">Goiânia</strong>
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4 p-4 rounded-xl bg-white/60 hover:bg-white/80 transition-all border border-primary/10">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                    <Clock className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 mb-1 text-lg">4 Encontros por Módulo</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      Cada módulo inclui <strong className="text-primary">4 encontros presenciais</strong> semanais
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-4 p-4 rounded-xl bg-white/60 hover:bg-white/80 transition-all border border-primary/10">
+                  <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-pink-500 flex items-center justify-center flex-shrink-0 shadow-lg">
+                    <TrendingUp className="h-6 w-6 text-white" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-900 mb-1 text-lg">Desconto Progressivo</h4>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      Quanto mais módulos, <strong className="text-primary">maior o desconto</strong> à vista
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className="flex items-start gap-3">
-                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="h-5 w-5 text-primary" />
+
+            {/* Garantias e Benefícios */}
+            <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 rounded-2xl p-8 lg:p-10 border-2 border-primary/20 max-w-5xl mx-auto">
+              <div className="text-center mb-8">
+                <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 mb-4 shadow-lg">
+                  <Heart className="h-8 w-8 text-primary" />
                 </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Matrícula R$ 100,00</h4>
-                  <p className="text-sm text-gray-600">
-                    Desconto de 50% ao escolher 2 ou mais cursos
-                  </p>
-                </div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-2">
+                  Garantias e Benefícios
+                </h3>
               </div>
-              <div className="flex items-start gap-3">
-                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="h-5 w-5 text-primary" />
+              <div className="grid md:grid-cols-3 gap-6">
+                <div className="text-center p-6 bg-white/80 rounded-xl border border-primary/10">
+                  <div className="h-14 w-14 rounded-full bg-green-100 flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle2 className="h-7 w-7 text-green-600" />
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-2">Material Exclusivo</h4>
+                  <p className="text-sm text-gray-600">Conteúdo desenvolvido especialmente para você</p>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Todos os cursos são presenciais</h4>
-                  <p className="text-sm text-gray-600">
-                    Encontros semanais em Goiânia
-                  </p>
+                <div className="text-center p-6 bg-white/80 rounded-xl border border-primary/10">
+                  <div className="h-14 w-14 rounded-full bg-blue-100 flex items-center justify-center mx-auto mb-4">
+                    <Clock className="h-7 w-7 text-blue-600" />
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-2">Correções em 24h</h4>
+                  <p className="text-sm text-gray-600">Feedback rápido e detalhado das suas redações</p>
                 </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">4 encontros por módulo</h4>
-                  <p className="text-sm text-gray-600">
-                    Cada módulo tem 4 encontros presenciais
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                  <CheckCircle2 className="h-5 w-5 text-primary" />
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-1">Desconto progressivo</h4>
-                  <p className="text-sm text-gray-600">
-                    Quanto mais módulos, maior o desconto à vista
-                  </p>
+                <div className="text-center p-6 bg-white/80 rounded-xl border border-primary/10">
+                  <div className="h-14 w-14 rounded-full bg-purple-100 flex items-center justify-center mx-auto mb-4">
+                    <MessageSquare className="h-7 w-7 text-purple-600" />
+                  </div>
+                  <h4 className="font-bold text-gray-900 mb-2">Suporte WhatsApp</h4>
+                  <p className="text-sm text-gray-600">Tire suas dúvidas a qualquer momento</p>
                 </div>
               </div>
             </div>
