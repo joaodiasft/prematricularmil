@@ -130,9 +130,10 @@ export default function Step7({ onNext, onBack }: Step7Props) {
 
       onNext()
     } catch (error) {
+      console.error("❌ Erro ao finalizar pré-matrícula:", error)
       toast({
         title: "Erro",
-        description: "Erro ao finalizar pré-matrícula",
+        description: error instanceof Error ? error.message : "Erro ao finalizar pré-matrícula",
         variant: "destructive",
       })
     }
