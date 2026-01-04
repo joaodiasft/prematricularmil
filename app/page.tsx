@@ -31,7 +31,8 @@ import {
   Sparkles,
   Trophy,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Heart
 } from "lucide-react"
 import { useSession } from "next-auth/react"
 import { useState, useEffect, useRef } from "react"
