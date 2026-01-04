@@ -1,101 +1,113 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { GraduationCap, Mail, Lock, ArrowLeft, Info } from "lucide-react"
-import { useToast } from "@/components/ui/use-toast"
-import { PreMatriculaGuide } from "../../components/pre-matricula-guide"
+import { useState, useEffect } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { GraduationCap, Mail, Lock, ArrowLeft, Info } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { PreMatriculaGuide } from "../../components/pre-matricula-guide";
 
 export default function LoginPage() {
-  const router = useRouter()
-  const { toast } = useToast()
-  const [isLoading, setIsLoading] = useState(false)
-  const [showGuide, setShowGuide] = useState(false)
+  const router = useRouter();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-  })
+  });
 
   useEffect(() => {
     // Verificar se o usuário já viu o guia
-    const hasSeenGuide = localStorage.getItem("hasSeenPreMatriculaGuide")
+    const hasSeenGuide = localStorage.getItem("hasSeenPreMatriculaGuide");
     if (!hasSeenGuide) {
-      setShowGuide(true)
+      setShowGuide(true);
     }
-  }, [])
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
       const result = await signIn("credentials", {
         email: formData.email,
         password: formData.password,
         redirect: false,
-      })
+      });
 
       if (result?.error) {
         toast({
           title: "Erro ao fazer login",
           description: "Email ou senha incorretos",
           variant: "destructive",
-        })
+        });
       } else {
-        router.push("/pre-matricula")
+        router.push("/pre-matricula");
       }
     } catch (error) {
       toast({
         title: "Erro",
         description: "Ocorreu um erro ao fazer login",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleGoogleSignIn = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const result = await signIn("google", { 
+      const result = await signIn("google", {
         callbackUrl: "/pre-matricula",
         redirect: true,
-      })
+      });
     } catch (error) {
-      console.error("Google sign in error:", error)
+      console.error("Google sign in error:", error);
       toast({
         title: "Erro ao fazer login com Google",
         description: "Tente novamente ou use email/senha",
         variant: "destructive",
-      })
-      setIsLoading(false)
+      });
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleCloseGuide = () => {
-    setShowGuide(false)
-    localStorage.setItem("hasSeenPreMatriculaGuide", "true")
-  }
+    setShowGuide(false);
+    localStorage.setItem("hasSeenPreMatriculaGuide", "true");
+  };
 
   const handleContinueFromGuide = () => {
-    handleCloseGuide()
-  }
+    handleCloseGuide();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-white flex items-center justify-center p-4">
       {showGuide && (
-        <PreMatriculaGuide onClose={handleCloseGuide} onContinue={handleContinueFromGuide} />
+        <PreMatriculaGuide
+          onClose={handleCloseGuide}
+          onContinue={handleContinueFromGuide}
+        />
       )}
-      
+
       <div className="w-full max-w-md">
-        <Link href="/" className="inline-flex items-center gap-2 text-sm text-gray-600 mb-6 hover:text-primary">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-gray-600 mb-6 hover:text-primary"
+        >
           <ArrowLeft className="h-4 w-4" />
           Voltar para página inicial
         </Link>
@@ -133,7 +145,9 @@ export default function LoginPage() {
                     placeholder="seu@email.com"
                     className="pl-10"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -142,7 +156,10 @@ export default function LoginPage() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Senha</Label>
-                  <Link href="/auth/forgot-password" className="text-sm text-primary hover:underline">
+                  <Link
+                    href="/auth/forgot-password"
+                    className="text-sm text-primary hover:underline"
+                  >
                     Esqueci minha senha
                   </Link>
                 </div>
@@ -154,7 +171,9 @@ export default function LoginPage() {
                     placeholder="••••••••"
                     className="pl-10"
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -204,7 +223,10 @@ export default function LoginPage() {
 
             <p className="text-center text-sm text-gray-600 mt-6">
               Não tem uma conta?{" "}
-              <Link href="/auth/register" className="text-primary hover:underline font-medium">
+              <Link
+                href="/auth/register"
+                className="text-primary hover:underline font-medium"
+              >
                 Criar conta
               </Link>
             </p>
@@ -212,5 +234,5 @@ export default function LoginPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

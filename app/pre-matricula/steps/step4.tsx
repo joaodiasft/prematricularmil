@@ -90,6 +90,21 @@ export default function Step4({ onNext, onBack }: Step4Props) {
         middleSchool: data.middleSchool?.length || 0,
       });
 
+      // Log detalhado das turmas do Ensino Médio
+      if (data.highSchool && Array.isArray(data.highSchool)) {
+        console.log(
+          "📚 Turmas do Ensino Médio:",
+          data.highSchool.map((c: any) => ({
+            code: c.code,
+            name: c.name,
+            subject: c.subject?.name,
+            dayOfWeek: c.dayOfWeek,
+            startTime: c.startTime,
+            endTime: c.endTime,
+          }))
+        );
+      }
+
       setClasses({
         highSchool: Array.isArray(data.highSchool) ? data.highSchool : [],
         middleSchool: Array.isArray(data.middleSchool) ? data.middleSchool : [],
@@ -215,7 +230,8 @@ export default function Step4({ onNext, onBack }: Step4Props) {
             <span
               className={`text-sm text-white px-3 py-1.5 rounded font-bold ${status.color}`}
             >
-              {available} {available === 1 ? 'vaga disponível' : 'vagas disponíveis'}
+              {available}{" "}
+              {available === 1 ? "vaga disponível" : "vagas disponíveis"}
             </span>
             <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-semibold">
               {classItem.location || "Presencial - Goiânia"}
@@ -226,7 +242,9 @@ export default function Step4({ onNext, onBack }: Step4Props) {
           <div className="grid grid-cols-2 gap-3">
             <div className="flex items-center gap-2 text-sm">
               <Calendar className="h-4 w-4 text-primary" />
-              <span className="font-medium text-gray-700">{classItem.dayOfWeek}</span>
+              <span className="font-medium text-gray-700">
+                {classItem.dayOfWeek}
+              </span>
             </div>
             <div className="flex items-center gap-2 text-sm">
               <Clock className="h-4 w-4 text-primary" />
@@ -242,7 +260,9 @@ export default function Step4({ onNext, onBack }: Step4Props) {
           )}
           <div className="pt-2 border-t space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-gray-700">Vagas:</span>
+              <span className="text-sm font-semibold text-gray-700">
+                Vagas:
+              </span>
               <span className="text-sm font-bold text-primary">
                 {available} de {classItem.maxCapacity}
               </span>
@@ -251,9 +271,7 @@ export default function Step4({ onNext, onBack }: Step4Props) {
               <div
                 className="h-full bg-primary transition-all"
                 style={{
-                  width: `${
-                    (available / classItem.maxCapacity) * 100
-                  }%`,
+                  width: `${(available / classItem.maxCapacity) * 100}%`,
                 }}
               />
             </div>
@@ -263,10 +281,12 @@ export default function Step4({ onNext, onBack }: Step4Props) {
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">Valor por módulo:</span>
                 <span className="text-lg font-bold text-primary">
-                  R$ {classItem.subject.price.toFixed(2).replace('.', ',')}
+                  R$ {classItem.subject.price.toFixed(2).replace(".", ",")}
                 </span>
               </div>
-              <p className="text-xs text-gray-500 mt-1">4 encontros presenciais por módulo</p>
+              <p className="text-xs text-gray-500 mt-1">
+                4 encontros presenciais por módulo
+              </p>
             </div>
           )}
         </CardContent>
@@ -276,6 +296,24 @@ export default function Step4({ onNext, onBack }: Step4Props) {
 
   const renderClassesBySubject = (classList: Class[]) => {
     const grouped = groupClassesBySubject(classList);
+
+    // Log para debug - verificar se R3 está presente
+    if (classList.some((c) => c.code === "R3")) {
+      console.log(
+        "✅ Turma R3 encontrada na lista:",
+        classList.find((c) => c.code === "R3")
+      );
+    } else {
+      console.log(
+        "❌ Turma R3 NÃO encontrada na lista. Total de turmas:",
+        classList.length
+      );
+      console.log(
+        "📋 Códigos das turmas:",
+        classList.map((c) => c.code)
+      );
+    }
+
     const subjectNames: Record<string, string> = {
       REDACAO: "Redação",
       EXATAS: "Exatas",

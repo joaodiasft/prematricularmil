@@ -1,47 +1,53 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { signIn } from "next-auth/react"
-import { useRouter } from "next/navigation"
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { GraduationCap, Mail, Lock, User, ArrowLeft, Info } from "lucide-react"
-import { useToast } from "@/components/ui/use-toast"
-import { PreMatriculaGuide } from "../../components/pre-matricula-guide"
+import { useState, useEffect } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { GraduationCap, Mail, Lock, User, ArrowLeft, Info } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { PreMatriculaGuide } from "../../components/pre-matricula-guide";
 
 export default function RegisterPage() {
-  const router = useRouter()
-  const { toast } = useToast()
-  const [isLoading, setIsLoading] = useState(false)
-  const [showGuide, setShowGuide] = useState(false)
+  const router = useRouter();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showGuide, setShowGuide] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-  })
+  });
 
   useEffect(() => {
     // Verificar se o usuário já viu o guia
-    const hasSeenGuide = localStorage.getItem("hasSeenPreMatriculaGuide")
+    const hasSeenGuide = localStorage.getItem("hasSeenPreMatriculaGuide");
     if (!hasSeenGuide) {
-      setShowGuide(true)
+      setShowGuide(true);
     }
-  }, [])
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: "Erro",
         description: "As senhas não coincidem",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
     if (formData.password.length < 6) {
@@ -49,11 +55,11 @@ export default function RegisterPage() {
         title: "Erro",
         description: "A senha deve ter pelo menos 6 caracteres",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
 
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
       const response = await fetch("/api/auth/register", {
@@ -66,75 +72,81 @@ export default function RegisterPage() {
           email: formData.email,
           password: formData.password,
         }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || "Erro ao criar conta")
+        throw new Error(data.error || "Erro ao criar conta");
       }
 
       toast({
         title: "Conta criada com sucesso!",
         description: "Redirecionando...",
-      })
+      });
 
       // Auto login após registro
       const result = await signIn("credentials", {
         email: formData.email,
         password: formData.password,
         redirect: false,
-      })
+      });
 
       if (result?.ok) {
-        router.push("/pre-matricula")
+        router.push("/pre-matricula");
       }
     } catch (error: any) {
       toast({
         title: "Erro",
         description: error.message || "Ocorreu um erro ao criar a conta",
         variant: "destructive",
-      })
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleGoogleSignIn = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      const result = await signIn("google", { 
+      const result = await signIn("google", {
         callbackUrl: "/pre-matricula",
         redirect: true,
-      })
+      });
     } catch (error) {
-      console.error("Google sign in error:", error)
+      console.error("Google sign in error:", error);
       toast({
         title: "Erro ao fazer login com Google",
         description: "Tente novamente ou crie uma conta com email/senha",
         variant: "destructive",
-      })
-      setIsLoading(false)
+      });
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleCloseGuide = () => {
-    setShowGuide(false)
-    localStorage.setItem("hasSeenPreMatriculaGuide", "true")
-  }
+    setShowGuide(false);
+    localStorage.setItem("hasSeenPreMatriculaGuide", "true");
+  };
 
   const handleContinueFromGuide = () => {
-    handleCloseGuide()
-  }
+    handleCloseGuide();
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-white flex items-center justify-center p-4">
       {showGuide && (
-        <PreMatriculaGuide onClose={handleCloseGuide} onContinue={handleContinueFromGuide} />
+        <PreMatriculaGuide
+          onClose={handleCloseGuide}
+          onContinue={handleContinueFromGuide}
+        />
       )}
-      
+
       <div className="w-full max-w-md">
-        <Link href="/" className="inline-flex items-center gap-2 text-sm text-gray-600 mb-6 hover:text-primary">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-gray-600 mb-6 hover:text-primary"
+        >
           <ArrowLeft className="h-4 w-4" />
           Voltar para página inicial
         </Link>
@@ -172,7 +184,9 @@ export default function RegisterPage() {
                     placeholder="Ex: Maria Silva"
                     className="pl-10"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -188,7 +202,9 @@ export default function RegisterPage() {
                     placeholder="seu@email.com"
                     className="pl-10"
                     value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -204,7 +220,9 @@ export default function RegisterPage() {
                     placeholder="••••••••"
                     className="pl-10"
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -220,7 +238,12 @@ export default function RegisterPage() {
                     placeholder="••••••••"
                     className="pl-10"
                     value={formData.confirmPassword}
-                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        confirmPassword: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
@@ -270,7 +293,10 @@ export default function RegisterPage() {
 
             <p className="text-center text-sm text-gray-600 mt-6">
               Já tem uma conta?{" "}
-              <Link href="/auth/login" className="text-primary hover:underline font-medium">
+              <Link
+                href="/auth/login"
+                className="text-primary hover:underline font-medium"
+              >
                 Fazer Login
               </Link>
             </p>
@@ -278,5 +304,5 @@ export default function RegisterPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
