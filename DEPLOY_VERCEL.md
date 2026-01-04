@@ -198,3 +198,4 @@ Se encontrar problemas:
 3. Teste localmente com as mesmas variáveis
 4. Consulte a documentação do [Vercel](https://vercel.com/docs) e [Next.js](https://nextjs.org/docs)
 
+

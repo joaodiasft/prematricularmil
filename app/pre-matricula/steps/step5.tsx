@@ -77,7 +77,10 @@ export default function Step5({ onNext, onBack }: Step5Props) {
       const response = await fetch("/api/plans")
       if (!response.ok) throw new Error("Erro ao buscar planos")
       const data = await response.json()
-      setPlans(data)
+      // Filtrar apenas os planos permitidos: FOCO, INTENSIVO, EVOLUCAO, APROVACAO_1
+      const allowedPlanTypes = ["FOCO", "INTENSIVO", "EVOLUCAO", "APROVACAO_1"]
+      const filteredPlans = data.filter((plan: Plan) => allowedPlanTypes.includes(plan.type))
+      setPlans(filteredPlans)
     } catch (error) {
       console.error("Error fetching plans:", error)
       toast({
@@ -103,8 +106,6 @@ export default function Step5({ onNext, onBack }: Step5Props) {
       INTENSIVO: 0.05, // 5%
       EVOLUCAO: 0.08, // 8%
       APROVACAO_1: 0.10, // 10%
-      APROVACAO_2: 0.10, // 10%
-      NOTA_1000: 0.12, // 12%
     }
     return discounts[planType] || 0
   }
@@ -168,12 +169,10 @@ export default function Step5({ onNext, onBack }: Step5Props) {
   }
 
   const planLabels: Record<string, string> = {
-    FOCO: "Essencial para começar",
-    INTENSIVO: "Mais prática escrita",
-    EVOLUCAO: "Equilíbrio ideal",
-    APROVACAO_1: "O favorito dos alunos",
-    APROVACAO_2: "O favorito dos alunos",
-    NOTA_1000: "Acompanhamento VIP",
+    FOCO: "1 módulo (4 encontros)",
+    INTENSIVO: "2 módulos (8 encontros)",
+    EVOLUCAO: "3 módulos (12 encontros)",
+    APROVACAO_1: "5 módulos (20 encontros)",
   }
 
   const selectedPlanData = plans.find((p) => p.id === selectedPlan)
@@ -193,40 +192,63 @@ export default function Step5({ onNext, onBack }: Step5Props) {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {selectedClasses.map((classItem) => (
-                <div key={classItem.id} className="flex items-center justify-between p-3 bg-white rounded-lg border">
-                  <div className="flex-1">
-                    <div className="font-semibold">{classItem.code} - {classItem.name}</div>
-                    <div className="text-sm text-gray-600 mt-1">
-                      {classItem.teacher && (
-                        <div className="mb-1">
-                          <span className="font-medium">Professor(a):</span> {classItem.teacher}
+            <div className="space-y-4">
+              {/* Agrupar por matéria */}
+              {(() => {
+                const groupedBySubject = selectedClasses.reduce((acc, classItem) => {
+                  const subjectName = classItem.subject.name
+                  if (!acc[subjectName]) {
+                    acc[subjectName] = []
+                  }
+                  acc[subjectName].push(classItem)
+                  return acc
+                }, {} as Record<string, typeof selectedClasses>)
+
+                return Object.entries(groupedBySubject).map(([subjectName, classes]) => {
+                  const subjectPrice = classes[0]?.subject?.price || 0
+                  return (
+                    <div key={subjectName} className="bg-white rounded-lg border p-4">
+                      <div className="flex items-center justify-between mb-3">
+                        <h4 className="font-bold text-lg text-gray-900">{subjectName}</h4>
+                        <div className="text-right">
+                          <div className="font-bold text-primary text-lg">R$ {subjectPrice.toFixed(2)}</div>
+                          <div className="text-xs text-gray-500">por módulo</div>
                         </div>
-                      )}
-                      <div className="flex items-center gap-4">
-                        <span className="flex items-center gap-1">
-                          <Calendar className="h-3 w-3" />
-                          {classItem.dayOfWeek}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {classItem.startTime} às {classItem.endTime}
-                        </span>
+                      </div>
+                      <div className="space-y-2 pl-4 border-l-2 border-primary/20">
+                        {classes.map((classItem) => (
+                          <div key={classItem.id} className="text-sm text-gray-600">
+                            <div className="font-medium">{classItem.code} - {classItem.name}</div>
+                            {classItem.teacher && (
+                              <div className="text-xs text-gray-500">
+                                <span className="font-medium">Professor(a):</span> {classItem.teacher}
+                              </div>
+                            )}
+                            <div className="flex items-center gap-4 text-xs text-gray-500 mt-1">
+                              <span className="flex items-center gap-1">
+                                <Calendar className="h-3 w-3" />
+                                {classItem.dayOfWeek}
+                              </span>
+                              <span className="flex items-center gap-1">
+                                <Clock className="h-3 w-3" />
+                                {classItem.startTime} às {classItem.endTime}
+                              </span>
+                            </div>
+                          </div>
+                        ))}
                       </div>
                     </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="font-bold text-primary">R$ {classItem.subject.price.toFixed(2)}</div>
-                    <div className="text-xs text-gray-500">por módulo</div>
-                  </div>
-                </div>
-              ))}
-              <div className="pt-3 border-t">
+                  )
+                })
+              })()}
+              
+              {/* Soma Geral */}
+              <div className="pt-4 border-t-2 border-primary/30 bg-gradient-to-r from-primary/5 to-transparent rounded-lg p-4">
                 <div className="flex justify-between items-center">
-                  <span className="font-semibold">Subtotal dos cursos:</span>
-                  <span className="font-bold text-lg">R$ {calculateBasePrice().toFixed(2)}</span>
+                  <span className="font-bold text-lg text-gray-900">Total dos Cursos:</span>
+                  <span className="font-bold text-2xl text-primary">R$ {calculateBasePrice().toFixed(2)}</span>
                 </div>
+                <div className="text-sm text-gray-600 mt-1">Valor por módulo (4 encontros)</div>
               </div>
             </div>
           </CardContent>

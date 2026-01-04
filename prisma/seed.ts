@@ -15,49 +15,61 @@ async function main() {
   console.log("📚 Criando matérias...");
   const redacao = await prisma.subject.upsert({
     where: { id: "redacao" },
-    update: {},
+    update: {
+      price: 300.0,
+      description: "Redação - Ensino Médio: R$ 300,00 | Ensino Fundamental: R$ 200,00. 4 encontros presenciais (1h30 cada) por módulo.",
+    },
     create: {
       id: "redacao",
       name: "Redação",
       type: SubjectType.REDACAO,
       price: 300.0,
-      description: "Curso de redação para ENEM e vestibulares",
+      description: "Redação - Ensino Médio: R$ 300,00 | Ensino Fundamental: R$ 200,00. 4 encontros presenciais (1h30 cada) por módulo.",
     },
   });
 
   const exatas = await prisma.subject.upsert({
     where: { id: "exatas" },
-    update: {},
+    update: {
+      price: 350.0,
+      description: "Exatas (Matemática, Física e Química) - R$ 350,00. 4 encontros presenciais (Matemática 1h, Química 1h, Física 1h) por módulo.",
+    },
     create: {
       id: "exatas",
       name: "Exatas",
       type: SubjectType.EXATAS,
       price: 350.0,
-      description: "Matemática, Física e Química integradas",
+      description: "Exatas (Matemática, Física e Química) - R$ 350,00. 4 encontros presenciais (Matemática 1h, Química 1h, Física 1h) por módulo.",
     },
   });
 
   const gramatica = await prisma.subject.upsert({
     where: { id: "gramatica" },
-    update: {},
+    update: {
+      price: 200.0,
+      description: "Gramática - R$ 200,00 (EM e EF). 4 encontros presenciais (1h30 cada) por módulo.",
+    },
     create: {
       id: "gramatica",
       name: "Gramática",
       type: SubjectType.GRAMATICA,
       price: 200.0,
-      description: "Gramática ",
+      description: "Gramática - R$ 200,00 (EM e EF). 4 encontros presenciais (1h30 cada) por módulo.",
     },
   });
 
   const matematica = await prisma.subject.upsert({
     where: { id: "matematica" },
-    update: {},
+    update: {
+      price: 215.0,
+      description: "Matemática - Ensino Médio: R$ 215,00 | Ensino Fundamental: R$ 150,00",
+    },
     create: {
       id: "matematica",
       name: "Matemática",
       type: SubjectType.MATEMATICA,
-      price: 200.0,
-      description: "Matemática",
+      price: 215.0,
+      description: "Matemática - Ensino Médio: R$ 215,00 | Ensino Fundamental: R$ 150,00",
     },
   });
 
@@ -70,7 +82,7 @@ async function main() {
     update: {
       teacher: "Adriano, Bruno e Marcos",
       description:
-        "Matemática, Física e Química. Focado em ENEM e vestibulares.",
+        "Matemática, Física e Química. Focado em ENEM e vestibulares. 4 encontros presenciais (Matemática 1h, Química 1h, Física 1h) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
     create: {
@@ -86,7 +98,7 @@ async function main() {
       shift: ClassShift.NIGHT,
       teacher: "Adriano, Bruno e Marcos",
       description:
-        "Matemática, Física e Química. Focado em ENEM e vestibulares.",
+        "Matemática, Física e Química. Focado em ENEM e vestibulares. 4 encontros presenciais (Matemática 1h, Química 1h, Física 1h) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -98,7 +110,7 @@ async function main() {
       startTime: "19:00",
       endTime: "20:30",
       teacher: "Professora: Martinha",
-      description: "Gramática Atual. Focado em ENEM e vestibulares.",
+      description: "Gramática Atual. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
     create: {
@@ -113,7 +125,7 @@ async function main() {
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
       teacher: "Professora: Martinha",
-      description: "Gramática Atual. Focado em ENEM e vestibulares.",
+      description: "Gramática Atual. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -123,7 +135,7 @@ async function main() {
     where: { code: "R1" },
     update: {
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
     create: {
@@ -138,7 +150,7 @@ async function main() {
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -151,7 +163,7 @@ async function main() {
       startTime: "19:30",
       endTime: "21:00",
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
     create: {
@@ -166,7 +178,7 @@ async function main() {
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -179,12 +191,12 @@ async function main() {
       endTime: "20:10",
       teacher: "Professor: Michael",
       description:
-        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares.",
+        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
     create: {
       code: "M1",
-      name: "Matemática ",
+      name: "Matemática",
       subjectId: matematica.id,
       educationLevel: EducationLevel.HIGH_SCHOOL,
       dayOfWeek: "Quarta-feira",
@@ -195,7 +207,7 @@ async function main() {
       shift: ClassShift.NIGHT,
       teacher: "Professor: Michael",
       description:
-        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares.",
+        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -204,11 +216,12 @@ async function main() {
   const m2 = await prisma.class.upsert({
     where: { code: "M2" },
     update: {
+      dayOfWeek: "Quinta-feira",
       startTime: "18:40",
       endTime: "19:40",
       teacher: "Professor: Michael",
       description:
-        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares.",
+        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares. 4 encontros presenciais (1h cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
     create: {
@@ -216,7 +229,7 @@ async function main() {
       name: "Matemática",
       subjectId: matematica.id,
       educationLevel: EducationLevel.HIGH_SCHOOL,
-      dayOfWeek: "Quarta-feira",
+      dayOfWeek: "Quinta-feira",
       startTime: "18:40",
       endTime: "19:40",
       maxCapacity: 30,
@@ -224,22 +237,86 @@ async function main() {
       shift: ClassShift.NIGHT,
       teacher: "Professor: Michael",
       description:
-        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares.",
+        "Matemática atualizada, exercícios por aula. Focado em ENEM e vestibulares. 4 encontros presenciais (1h cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
 
-  // Criar Turmas - Ensino Fundamental
-  console.log("👥 Criando turmas do Ensino Fundamental...");
+  // R3 - Redação (Sábado - Ensino Médio)
+  const r3 = await prisma.class.upsert({
+    where: { code: "R3" },
+    update: {
+      teacher: "Professora: Martinha",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
+      location: "Presencial - Goiânia",
+      dayOfWeek: "Sábado",
+      startTime: "11:00",
+      endTime: "12:30",
+      educationLevel: EducationLevel.HIGH_SCHOOL,
+      shift: ClassShift.MORNING,
+    } as any,
+    create: {
+      code: "R3",
+      name: "Redação",
+      subjectId: redacao.id,
+      educationLevel: EducationLevel.HIGH_SCHOOL,
+      dayOfWeek: "Sábado",
+      startTime: "11:00",
+      endTime: "12:30",
+      maxCapacity: 30,
+      currentCapacity: 0,
+      shift: ClassShift.MORNING,
+      teacher: "Professora: Martinha",
+      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
+      location: "Presencial - Goiânia",
+    } as any,
+  });
+
+  // R5 - Redação (Sábado - 6° e 7° ano)
   const r5 = await prisma.class.upsert({
     where: { code: "R5" },
     update: {
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      description: "Redação para 6° e 7° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h cada) por módulo.",
       location: "Presencial - Goiânia",
+      dayOfWeek: "Sábado",
+      startTime: "08:00",
+      endTime: "09:00",
+      educationLevel: EducationLevel.MIDDLE_SCHOOL,
+      shift: ClassShift.MORNING,
     } as any,
     create: {
       code: "R5",
+      name: "Redação",
+      subjectId: redacao.id,
+      educationLevel: EducationLevel.MIDDLE_SCHOOL,
+      dayOfWeek: "Sábado",
+      startTime: "08:00",
+      endTime: "09:00",
+      maxCapacity: 30,
+      currentCapacity: 0,
+      shift: ClassShift.MORNING,
+      teacher: "Professora: Martinha",
+      description: "Redação para 6° e 7° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h cada) por módulo.",
+      location: "Presencial - Goiânia",
+    } as any,
+  });
+
+  // R6 - Redação (Sábado - 8° e 9° ano)
+  const r6 = await prisma.class.upsert({
+    where: { code: "R6" },
+    update: {
+      teacher: "Professora: Martinha",
+      description: "Redação para 8° e 9° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h30 cada) por módulo.",
+      location: "Presencial - Goiânia",
+      dayOfWeek: "Sábado",
+      startTime: "09:00",
+      endTime: "10:30",
+      educationLevel: EducationLevel.MIDDLE_SCHOOL,
+      shift: ClassShift.MORNING,
+    } as any,
+    create: {
+      code: "R6",
       name: "Redação",
       subjectId: redacao.id,
       educationLevel: EducationLevel.MIDDLE_SCHOOL,
@@ -250,31 +327,7 @@ async function main() {
       currentCapacity: 0,
       shift: ClassShift.MORNING,
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
-      location: "Presencial - Goiânia",
-    } as any,
-  });
-
-  const r6 = await prisma.class.upsert({
-    where: { code: "R6" },
-    update: {
-      teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
-      location: "Presencial - Goiânia",
-    } as any,
-    create: {
-      code: "R6",
-      name: "Redação",
-      subjectId: redacao.id,
-      educationLevel: EducationLevel.MIDDLE_SCHOOL,
-      dayOfWeek: "Sábado",
-      startTime: "11:00",
-      endTime: "12:30",
-      maxCapacity: 30,
-      currentCapacity: 0,
-      shift: ClassShift.MORNING,
-      teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares.",
+      description: "Redação para 8° e 9° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -341,17 +394,7 @@ async function main() {
     },
   });
 
-  const planoNota1000 = await prisma.plan.upsert({
-    where: { id: "nota1000" },
-    update: {},
-    create: {
-      id: "nota1000",
-      name: "Nota 1000",
-      type: PlanType.NOTA_1000,
-      modules: 9,
-      description: "Acompanhamento VIP",
-    },
-  });
+  // Removendo NOTA_1000 (9 módulos) - mantendo apenas 1-5 módulos conforme especificação
 
   // Criar configurações do sistema
   console.log("⚙️ Criando configurações do sistema...");

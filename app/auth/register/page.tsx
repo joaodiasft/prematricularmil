@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { signIn } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from "next/link"
@@ -8,19 +8,29 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { GraduationCap, Mail, Lock, User, ArrowLeft } from "lucide-react"
+import { GraduationCap, Mail, Lock, User, ArrowLeft, Info } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
+import { PreMatriculaGuide } from "@/components/pre-matricula-guide"
 
 export default function RegisterPage() {
   const router = useRouter()
   const { toast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
+  const [showGuide, setShowGuide] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
   })
+
+  useEffect(() => {
+    // Verificar se o usuário já viu o guia
+    const hasSeenGuide = localStorage.getItem("hasSeenPreMatriculaGuide")
+    if (!hasSeenGuide) {
+      setShowGuide(true)
+    }
+  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -108,13 +118,37 @@ export default function RegisterPage() {
     }
   }
 
+  const handleCloseGuide = () => {
+    setShowGuide(false)
+    localStorage.setItem("hasSeenPreMatriculaGuide", "true")
+  }
+
+  const handleContinueFromGuide = () => {
+    handleCloseGuide()
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-white flex items-center justify-center p-4">
+      {showGuide && (
+        <PreMatriculaGuide onClose={handleCloseGuide} onContinue={handleContinueFromGuide} />
+      )}
+      
       <div className="w-full max-w-md">
         <Link href="/" className="inline-flex items-center gap-2 text-sm text-gray-600 mb-6 hover:text-primary">
           <ArrowLeft className="h-4 w-4" />
           Voltar para página inicial
         </Link>
+
+        <div className="mb-4">
+          <Button
+            variant="outline"
+            className="w-full"
+            onClick={() => setShowGuide(true)}
+          >
+            <Info className="mr-2 h-4 w-4" />
+            Ver Como Funciona a Pré-Matrícula
+          </Button>
+        </div>
 
         <Card>
           <CardHeader className="text-center">

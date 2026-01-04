@@ -40,6 +40,7 @@ interface Class {
   subject: {
     name: string;
     type: string;
+    price: number;
   };
 }
 
@@ -212,46 +213,62 @@ export default function Step4({ onNext, onBack }: Step4Props) {
           </div>
           <div className="flex flex-wrap gap-2 mt-3">
             <span
-              className={`text-xs text-white px-2 py-1 rounded font-semibold ${status.color}`}
+              className={`text-sm text-white px-3 py-1.5 rounded font-bold ${status.color}`}
             >
-              {status.label} - {available} vagas
+              {available} {available === 1 ? 'vaga disponível' : 'vagas disponíveis'}
             </span>
             <span className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded font-semibold">
               {classItem.location || "Presencial - Goiânia"}
             </span>
           </div>
         </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Calendar className="h-4 w-4" />
-            <span className="font-medium">{classItem.dayOfWeek}</span>
-          </div>
-          <div className="flex items-center gap-2 text-sm text-gray-600">
-            <Clock className="h-4 w-4" />
-            <span className="font-medium">
-              {classItem.startTime} às {classItem.endTime}
-            </span>
+        <CardContent className="space-y-4">
+          <div className="grid grid-cols-2 gap-3">
+            <div className="flex items-center gap-2 text-sm">
+              <Calendar className="h-4 w-4 text-primary" />
+              <span className="font-medium text-gray-700">{classItem.dayOfWeek}</span>
+            </div>
+            <div className="flex items-center gap-2 text-sm">
+              <Clock className="h-4 w-4 text-primary" />
+              <span className="font-medium text-gray-700">
+                {classItem.startTime} às {classItem.endTime}
+              </span>
+            </div>
           </div>
           {classItem.description && (
             <div className="text-sm text-gray-600 pt-2 border-t">
-              <p>{classItem.description}</p>
+              <p className="leading-relaxed">{classItem.description}</p>
             </div>
           )}
-          <div className="flex items-center justify-between pt-2 border-t">
-            <div className="text-xs text-gray-500">
-              Capacidade: {classItem.currentCapacity}/{classItem.maxCapacity}
+          <div className="pt-2 border-t space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-semibold text-gray-700">Vagas:</span>
+              <span className="text-sm font-bold text-primary">
+                {available} de {classItem.maxCapacity}
+              </span>
             </div>
-            <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+            <div className="w-full h-3 bg-gray-200 rounded-full overflow-hidden">
               <div
                 className="h-full bg-primary transition-all"
                 style={{
                   width: `${
-                    (classItem.currentCapacity / classItem.maxCapacity) * 100
+                    (available / classItem.maxCapacity) * 100
                   }%`,
                 }}
               />
             </div>
           </div>
+          {classItem.subject.price && (
+            <div className="pt-2 border-t">
+              <div className="flex items-center justify-between">
+                <span className="text-sm text-gray-600">Valor por módulo:</span>
+                <span className="text-lg font-bold text-primary">
+                  R$ {classItem.subject.price.toFixed(2).replace('.', ',')}
+                </span>
+              </div>
+              <p className="text-xs text-gray-500 mt-1">4 encontros presenciais por módulo</p>
+            </div>
+          )}
         </CardContent>
       </Card>
     );
