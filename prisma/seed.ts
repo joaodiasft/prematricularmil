@@ -80,6 +80,7 @@ async function main() {
   const ex1 = await prisma.class.upsert({
     where: { code: "EX1" },
     update: {
+      name: "Exatas (ciências da natureza)",
       teacher: "Adriano, Bruno e Marcos",
       description:
         "Matemática, Física e Química. Focado em ENEM e vestibulares. 4 encontros presenciais (Matemática 1h, Química 1h, Física 1h) por módulo.",
@@ -87,7 +88,7 @@ async function main() {
     } as any,
     create: {
       code: "EX1",
-      name: "Exatas (Matemática, Física e Química)",
+      name: "Exatas (ciências da natureza)",
       subjectId: exatas.id,
       educationLevel: EducationLevel.HIGH_SCHOOL,
       dayOfWeek: "Segunda-feira",
@@ -187,6 +188,7 @@ async function main() {
   const m1 = await prisma.class.upsert({
     where: { code: "M1" },
     update: {
+      name: "Específica de Matemática",
       startTime: "18:40",
       endTime: "20:10",
       teacher: "Professor: Michael",
@@ -196,7 +198,7 @@ async function main() {
     } as any,
     create: {
       code: "M1",
-      name: "Matemática",
+      name: "Específica de Matemática",
       subjectId: matematica.id,
       educationLevel: EducationLevel.HIGH_SCHOOL,
       dayOfWeek: "Quarta-feira",
@@ -216,6 +218,7 @@ async function main() {
   const m2 = await prisma.class.upsert({
     where: { code: "M2" },
     update: {
+      name: "Específica de Matemática",
       dayOfWeek: "Quinta-feira",
       startTime: "18:40",
       endTime: "19:40",
@@ -226,7 +229,7 @@ async function main() {
     } as any,
     create: {
       code: "M2",
-      name: "Matemática",
+      name: "Específica de Matemática",
       subjectId: matematica.id,
       educationLevel: EducationLevel.HIGH_SCHOOL,
       dayOfWeek: "Quinta-feira",
