@@ -19,7 +19,21 @@ import {
   MessageCircle,
   Edit,
   ArrowLeft,
-  Copy
+  Copy,
+  User,
+  Mail,
+  Phone,
+  MessageSquare,
+  Instagram,
+  School,
+  BookOpen,
+  Target,
+  CreditCard,
+  MapPin,
+  FileText,
+  Award,
+  Users,
+  UserCircle
 } from "lucide-react"
 import { useToast } from "@/components/ui/use-toast"
 import { format } from "date-fns"
@@ -259,65 +273,369 @@ export default function AlunoPage() {
             </CardContent>
           </Card>
 
-          {/* Detalhes da Inscrição */}
+          {/* Token de Inscrição */}
+          <Card className="mb-6 border-2 border-primary/20">
+            <CardHeader className="bg-gradient-to-r from-primary/10 to-pink-50">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <FileText className="h-5 w-5 text-primary" />
+                  <CardTitle>Token de Inscrição</CardTitle>
+                </div>
+              </div>
+              <CardDescription>
+                Use este token para identificação em todas as comunicações
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="pt-6">
+              <div className="flex items-center gap-3">
+                <div className="px-6 py-3 bg-gradient-to-r from-primary/10 to-pink-50 rounded-lg border-2 border-primary font-mono text-xl font-bold text-primary flex-1 text-center">
+                  {enrollment.token}
+                </div>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={copyToken}
+                  className="h-12 px-4"
+                >
+                  <Copy className="h-5 w-5 mr-2" />
+                  Copiar
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Dados Pessoais */}
           <Card className="mb-6">
             <CardHeader>
-              <CardTitle>Detalhes da Inscrição</CardTitle>
+              <div className="flex items-center gap-2">
+                <User className="h-5 w-5 text-primary" />
+                <CardTitle>Dados Pessoais</CardTitle>
+              </div>
+              <CardDescription>
+                Informações cadastrais do aluno
+              </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <div className="text-sm text-gray-600 mb-1">TOKEN DE INSCRIÇÃO</div>
-                <div className="flex items-center gap-2">
-                  <div className="px-4 py-2 bg-gray-100 rounded-lg border border-primary font-mono text-lg font-bold text-primary">
-                    {enrollment.token}
+            <CardContent>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div className="space-y-1">
+                  <div className="text-sm text-gray-600 flex items-center gap-2">
+                    <UserCircle className="h-4 w-4" />
+                    Nome Completo
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={copyToken}
-                    className="h-8 w-8 p-0"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
+                  <div className="font-semibold text-gray-900">{enrollment.fullName}</div>
                 </div>
-              </div>
 
-              <div className="flex items-center gap-3">
-                <GraduationCap className="h-5 w-5 text-gray-400" />
-                <div>
-                  <div className="text-sm text-gray-600">Turma Selecionada</div>
-                  <div className="font-semibold">
-                    {enrollment.class?.code} - {enrollment.class?.name}
+                <div className="space-y-1">
+                  <div className="text-sm text-gray-600 flex items-center gap-2">
+                    <Mail className="h-4 w-4" />
+                    E-mail
                   </div>
+                  <div className="font-semibold text-gray-900">{enrollment.email}</div>
                 </div>
+
+                {enrollment.age && (
+                  <div className="space-y-1">
+                    <div className="text-sm text-gray-600 flex items-center gap-2">
+                      <Calendar className="h-4 w-4" />
+                      Idade
+                    </div>
+                    <div className="font-semibold text-gray-900">{enrollment.age} anos</div>
+                  </div>
+                )}
+
+                {enrollment.phone && (
+                  <div className="space-y-1">
+                    <div className="text-sm text-gray-600 flex items-center gap-2">
+                      <Phone className="h-4 w-4" />
+                      Telefone
+                    </div>
+                    <div className="font-semibold text-gray-900">{enrollment.phone}</div>
+                  </div>
+                )}
+
+                {enrollment.whatsapp && (
+                  <div className="space-y-1">
+                    <div className="text-sm text-gray-600 flex items-center gap-2">
+                      <MessageSquare className="h-4 w-4" />
+                      WhatsApp
+                    </div>
+                    <div className="font-semibold text-gray-900">{enrollment.whatsapp}</div>
+                  </div>
+                )}
+
+                {enrollment.instagram && (
+                  <div className="space-y-1">
+                    <div className="text-sm text-gray-600 flex items-center gap-2">
+                      <Instagram className="h-4 w-4" />
+                      Instagram
+                    </div>
+                    <div className="font-semibold text-gray-900">@{enrollment.instagram.replace("@", "")}</div>
+                  </div>
+                )}
+
+                {enrollment.currentSchool && (
+                  <div className="space-y-1 md:col-span-2">
+                    <div className="text-sm text-gray-600 flex items-center gap-2">
+                      <School className="h-4 w-4" />
+                      Escola Atual
+                    </div>
+                    <div className="font-semibold text-gray-900">{enrollment.currentSchool}</div>
+                  </div>
+                )}
+
+                {enrollment.currentGrade && (
+                  <div className="space-y-1">
+                    <div className="text-sm text-gray-600 flex items-center gap-2">
+                      <BookOpen className="h-4 w-4" />
+                      Série/Ano
+                    </div>
+                    <div className="font-semibold text-gray-900">{enrollment.currentGrade}</div>
+                  </div>
+                )}
+
+                {enrollment.writingLevel && (
+                  <div className="space-y-1">
+                    <div className="text-sm text-gray-600 flex items-center gap-2">
+                      <FileText className="h-4 w-4" />
+                      Nível de Redação
+                    </div>
+                    <div className="font-semibold text-gray-900">
+                      {enrollment.writingLevel === "BEGINNER" && "Iniciante"}
+                      {enrollment.writingLevel === "INTERMEDIATE" && "Intermediário"}
+                      {enrollment.writingLevel === "ADVANCED" && "Avançado"}
+                    </div>
+                  </div>
+                )}
+
+                {enrollment.hasTakenENEM && (
+                  <div className="space-y-1">
+                    <div className="text-sm text-gray-600 flex items-center gap-2">
+                      <Award className="h-4 w-4" />
+                      Já fez ENEM
+                    </div>
+                    <div className="font-semibold text-gray-900">Sim</div>
+                    {enrollment.enemScore && (
+                      <div className="text-sm text-primary font-medium">
+                        Nota: {enrollment.enemScore.toFixed(1)} pontos
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
 
-              <div className="flex items-center gap-3">
-                <Clock className="h-5 w-5 text-gray-400" />
-                <div>
-                  <div className="text-sm text-gray-600">Plano Escolhido</div>
-                  <div className="font-semibold">{enrollment.plan?.name}</div>
-                </div>
-              </div>
-
-              {enrollment.confirmationDate && (
-                <div className="flex items-center gap-3">
-                  <Calendar className="h-5 w-5 text-gray-400" />
-                  <div>
-                    <div className="text-sm text-gray-600">Confirmação Presencial</div>
-                    <div className="font-semibold">
-                      {format(new Date(enrollment.confirmationDate), "d MMM, 'às' HH:mm", {
-                        locale: ptBR,
-                      })}
-                    </div>
-                    <div className="text-sm text-gray-600">
-                      Unidade Centro - Sala 304
-                    </div>
+              {enrollment.studyObjectives && enrollment.studyObjectives.length > 0 && (
+                <div className="mt-6 pt-6 border-t">
+                  <div className="text-sm text-gray-600 flex items-center gap-2 mb-3">
+                    <Target className="h-4 w-4" />
+                    Objetivos de Estudo
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {enrollment.studyObjectives.map((objective: string, index: number) => (
+                      <Badge key={index} variant="secondary" className="text-sm">
+                        {objective === "MEDICINE" && "Medicina"}
+                        {objective === "LAW" && "Direito"}
+                        {objective === "ENGINEERING" && "Engenharia"}
+                        {objective === "PUBLIC_SERVICE" && "Concurso Público"}
+                        {objective === "UNIVERSITY_ENTRANCE" && "Vestibular"}
+                        {objective === "ENEM" && "ENEM"}
+                        {objective === "OTHER" && "Outro"}
+                      </Badge>
+                    ))}
                   </div>
                 </div>
               )}
             </CardContent>
           </Card>
+
+          {/* Dados dos Responsáveis */}
+          {(enrollment.fatherName || enrollment.motherName) && (
+            <Card className="mb-6">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-primary" />
+                  <CardTitle>Dados dos Responsáveis</CardTitle>
+                </div>
+                <CardDescription>
+                  Informações dos responsáveis pelo aluno
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {enrollment.fatherName && enrollment.fatherName !== "Não informado" && (
+                    <div className="space-y-3 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <div className="text-sm font-semibold text-blue-900 flex items-center gap-2">
+                        <UserCircle className="h-4 w-4" />
+                        Pai
+                      </div>
+                      <div className="space-y-2">
+                        <div>
+                          <div className="text-xs text-gray-600">Nome</div>
+                          <div className="font-semibold text-gray-900">{enrollment.fatherName}</div>
+                        </div>
+                        {enrollment.fatherPhone && enrollment.fatherPhone !== "Não informado" && (
+                          <div>
+                            <div className="text-xs text-gray-600">Telefone</div>
+                            <div className="font-semibold text-gray-900">{enrollment.fatherPhone}</div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {enrollment.motherName && enrollment.motherName !== "Não informado" && (
+                    <div className="space-y-3 p-4 bg-pink-50 rounded-lg border border-pink-200">
+                      <div className="text-sm font-semibold text-pink-900 flex items-center gap-2">
+                        <UserCircle className="h-4 w-4" />
+                        Mãe
+                      </div>
+                      <div className="space-y-2">
+                        <div>
+                          <div className="text-xs text-gray-600">Nome</div>
+                          <div className="font-semibold text-gray-900">{enrollment.motherName}</div>
+                        </div>
+                        {enrollment.motherPhone && enrollment.motherPhone !== "Não informado" && (
+                          <div>
+                            <div className="text-xs text-gray-600">Telefone</div>
+                            <div className="font-semibold text-gray-900">{enrollment.motherPhone}</div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Curso e Turma */}
+          <Card className="mb-6">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <GraduationCap className="h-5 w-5 text-primary" />
+                <CardTitle>Curso e Turma</CardTitle>
+              </div>
+              <CardDescription>
+                Informações sobre o curso selecionado
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="p-4 bg-gradient-to-r from-primary/10 to-pink-50 rounded-lg border border-primary/20">
+                  <div className="text-sm text-gray-600 mb-2">Turma Selecionada</div>
+                  <div className="text-2xl font-bold text-primary mb-1">
+                    {enrollment.class?.code} - {enrollment.class?.name}
+                  </div>
+                  {enrollment.class?.subject && (
+                    <div className="text-sm text-gray-700">
+                      <span className="font-semibold">Matéria:</span> {enrollment.class.subject.name}
+                    </div>
+                  )}
+                  {enrollment.class?.dayOfWeek && (
+                    <div className="text-sm text-gray-700 mt-2">
+                      <span className="font-semibold">Dia da Semana:</span>{" "}
+                      {enrollment.class.dayOfWeek === "MONDAY" && "Segunda-feira"}
+                      {enrollment.class.dayOfWeek === "TUESDAY" && "Terça-feira"}
+                      {enrollment.class.dayOfWeek === "WEDNESDAY" && "Quarta-feira"}
+                      {enrollment.class.dayOfWeek === "THURSDAY" && "Quinta-feira"}
+                      {enrollment.class.dayOfWeek === "FRIDAY" && "Sexta-feira"}
+                      {enrollment.class.dayOfWeek === "SATURDAY" && "Sábado"}
+                      {enrollment.class.dayOfWeek === "SUNDAY" && "Domingo"}
+                    </div>
+                  )}
+                  {enrollment.class?.startTime && enrollment.class?.endTime && (
+                    <div className="text-sm text-gray-700">
+                      <span className="font-semibold">Horário:</span> {enrollment.class.startTime} às {enrollment.class.endTime}
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Plano e Pagamento */}
+          <Card className="mb-6">
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <CreditCard className="h-5 w-5 text-primary" />
+                <CardTitle>Plano e Forma de Pagamento</CardTitle>
+              </div>
+              <CardDescription>
+                Detalhes do plano escolhido e forma de pagamento
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div className="p-4 bg-gradient-to-r from-pink-50 to-primary/10 rounded-lg border border-pink-200">
+                  <div className="text-sm text-gray-600 mb-2">Plano Escolhido</div>
+                  <div className="text-xl font-bold text-gray-900 mb-3">{enrollment.plan?.name}</div>
+                  {enrollment.paymentMethod && (
+                    <div className="mt-3 pt-3 border-t border-pink-200">
+                      <div className="text-sm text-gray-600 mb-1">Forma de Pagamento</div>
+                      <div className="font-semibold text-gray-900">
+                        {enrollment.paymentMethod === "CASH" && "À Vista"}
+                        {enrollment.paymentMethod === "INSTALLMENT" && "Parcelado"}
+                        {enrollment.paymentMethod === "BOLETO" && "Boleto"}
+                        {enrollment.paymentMethod === "PIX" && "PIX"}
+                        {enrollment.paymentMethod === "CREDIT_CARD" && "Cartão de Crédito"}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Agendamento Presencial */}
+          {enrollment.confirmationDate && (
+            <Card className="mb-6 border-2 border-green-200 bg-green-50/50">
+              <CardHeader>
+                <div className="flex items-center gap-2">
+                  <Calendar className="h-5 w-5 text-green-700" />
+                  <CardTitle>Agendamento Presencial</CardTitle>
+                </div>
+                <CardDescription>
+                  Data e horário confirmados para confirmação presencial
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="p-4 bg-white rounded-lg border border-green-200">
+                    <div className="flex items-start gap-4">
+                      <div className="h-12 w-12 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                        <Calendar className="h-6 w-6 text-green-700" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-sm text-gray-600 mb-1">Data e Horário</div>
+                        <div className="text-lg font-bold text-gray-900 mb-2">
+                          {format(new Date(enrollment.confirmationDate), "EEEE, d 'de' MMMM 'de' yyyy, 'às' HH:mm", {
+                            locale: ptBR,
+                          })}
+                        </div>
+                        {enrollment.confirmationShift && (
+                          <div className="text-sm text-gray-700 mb-2">
+                            <span className="font-semibold">Turno:</span>{" "}
+                            {enrollment.confirmationShift === "MORNING" && "Manhã"}
+                            {enrollment.confirmationShift === "AFTERNOON" && "Tarde"}
+                            {enrollment.confirmationShift === "EVENING" && "Noite"}
+                          </div>
+                        )}
+                        <div className="flex items-center gap-2 text-sm text-gray-600 mt-3">
+                          <MapPin className="h-4 w-4" />
+                          <span>Unidade Centro - Sala 304</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {enrollment.confirmationNotes && (
+                    <div className="p-4 bg-white rounded-lg border border-green-200">
+                      <div className="text-sm text-gray-600 mb-2">Observações</div>
+                      <div className="text-sm text-gray-900">{enrollment.confirmationNotes}</div>
+                    </div>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           {/* Ações */}
           <div className="flex gap-4">
