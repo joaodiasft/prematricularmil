@@ -13,7 +13,8 @@ export async function GET() {
       )
     }
 
-    const preEnrollment = await prisma.preEnrollment.findFirst({
+    // Buscar todas as pré-matrículas do usuário
+    const preEnrollments = await prisma.preEnrollment.findMany({
       where: {
         userId: session.user.id,
       },
@@ -30,14 +31,29 @@ export async function GET() {
       },
     })
 
-    if (!preEnrollment) {
+    if (!preEnrollments || preEnrollments.length === 0) {
       return NextResponse.json(
         { error: "Pré-matrícula não encontrada" },
         { status: 404 }
       )
     }
 
-    return NextResponse.json(preEnrollment)
+    // A mais recente é a principal (para manter compatibilidade)
+    const latest = preEnrollments[0]
+    
+    // Coletar todas as turmas únicas (pode haver múltiplas pré-matrículas com a mesma turma)
+    const uniqueClasses = preEnrollments
+      .map(pe => pe.class)
+      .filter((classItem, index, self) => 
+        index === self.findIndex(c => c?.id === classItem?.id)
+      )
+    
+    // Retornar a principal com todas as turmas
+    return NextResponse.json({
+      ...latest,
+      allEnrollments: preEnrollments,
+      classes: uniqueClasses.length > 0 ? uniqueClasses : (latest.class ? [latest.class] : []),
+    })
   } catch (error) {
     console.error("Error fetching latest pre-enrollment:", error)
     return NextResponse.json(
