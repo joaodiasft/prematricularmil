@@ -70,10 +70,11 @@ export default function LoginPage() {
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
-      const result = await signIn("google", {
+      await signIn("google", {
         callbackUrl: "/pre-matricula",
         redirect: true,
       });
+      // Se chegou aqui, o redirect será feito automaticamente
     } catch (error) {
       console.error("Google sign in error:", error);
       toast({

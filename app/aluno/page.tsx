@@ -620,7 +620,8 @@ export default function AlunoPage() {
                           <Calendar className="h-4 w-4 text-gray-500" />
                           <span className="text-gray-600">
                             <span className="font-semibold">Dia:</span>{" "}
-                            {classItem.dayOfWeek === "MONDAY" && "Segunda-feira"}
+                            {classItem.dayOfWeek === "MONDAY" &&
+                              "Segunda-feira"}
                             {classItem.dayOfWeek === "TUESDAY" && "Terça-feira"}
                             {classItem.dayOfWeek === "WEDNESDAY" &&
                               "Quarta-feira"}
@@ -790,9 +791,13 @@ export default function AlunoPage() {
                         <div className="flex items-start gap-2 text-sm text-gray-600 mt-3">
                           <MapPin className="h-4 w-4 mt-0.5 flex-shrink-0" />
                           <div>
-                            <div className="font-semibold">Rua F QD 159 LT 1. Sala 1</div>
+                            <div className="font-semibold">
+                              Rua F QD 159 LT 1. Sala 1
+                            </div>
                             <div>Parque Tremendão, Goiânia - Goiás</div>
-                            <div className="text-xs text-gray-500">CEP: 74.475-060</div>
+                            <div className="text-xs text-gray-500">
+                              CEP: 74.475-060
+                            </div>
                           </div>
                         </div>
                       </div>

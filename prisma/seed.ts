@@ -17,14 +17,16 @@ async function main() {
     where: { id: "redacao" },
     update: {
       price: 300.0,
-      description: "Redação - Ensino Médio: R$ 300,00 | Ensino Fundamental: R$ 200,00. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Redação - Ensino Médio: R$ 300,00 | Ensino Fundamental: R$ 200,00. 4 encontros presenciais (1h30 cada) por módulo.",
     },
     create: {
       id: "redacao",
       name: "Redação",
       type: SubjectType.REDACAO,
       price: 300.0,
-      description: "Redação - Ensino Médio: R$ 300,00 | Ensino Fundamental: R$ 200,00. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Redação - Ensino Médio: R$ 300,00 | Ensino Fundamental: R$ 200,00. 4 encontros presenciais (1h30 cada) por módulo.",
     },
   });
 
@@ -32,14 +34,16 @@ async function main() {
     where: { id: "exatas" },
     update: {
       price: 350.0,
-      description: "Exatas (Matemática, Física e Química) - R$ 350,00. 4 encontros presenciais (Matemática 1h, Química 1h, Física 1h) por módulo.",
+      description:
+        "Exatas (Matemática, Física e Química) - R$ 350,00. 4 encontros presenciais (Matemática 1h, Química 1h, Física 1h) por módulo.",
     },
     create: {
       id: "exatas",
       name: "Exatas",
       type: SubjectType.EXATAS,
       price: 350.0,
-      description: "Exatas (Matemática, Física e Química) - R$ 350,00. 4 encontros presenciais (Matemática 1h, Química 1h, Física 1h) por módulo.",
+      description:
+        "Exatas (Matemática, Física e Química) - R$ 350,00. 4 encontros presenciais (Matemática 1h, Química 1h, Física 1h) por módulo.",
     },
   });
 
@@ -47,14 +51,16 @@ async function main() {
     where: { id: "gramatica" },
     update: {
       price: 200.0,
-      description: "Gramática - R$ 200,00 (EM e EF). 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Gramática - R$ 200,00 (EM e EF). 4 encontros presenciais (1h30 cada) por módulo.",
     },
     create: {
       id: "gramatica",
       name: "Gramática",
       type: SubjectType.GRAMATICA,
       price: 200.0,
-      description: "Gramática - R$ 200,00 (EM e EF). 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Gramática - R$ 200,00 (EM e EF). 4 encontros presenciais (1h30 cada) por módulo.",
     },
   });
 
@@ -62,14 +68,16 @@ async function main() {
     where: { id: "matematica" },
     update: {
       price: 215.0,
-      description: "Matemática - Ensino Médio: R$ 215,00 | Ensino Fundamental: R$ 150,00",
+      description:
+        "Matemática - Ensino Médio: R$ 215,00 | Ensino Fundamental: R$ 150,00",
     },
     create: {
       id: "matematica",
       name: "Matemática",
       type: SubjectType.MATEMATICA,
       price: 215.0,
-      description: "Matemática - Ensino Médio: R$ 215,00 | Ensino Fundamental: R$ 150,00",
+      description:
+        "Matemática - Ensino Médio: R$ 215,00 | Ensino Fundamental: R$ 150,00",
     },
   });
 
@@ -111,7 +119,8 @@ async function main() {
       startTime: "19:00",
       endTime: "20:30",
       teacher: "Professora: Martinha",
-      description: "Gramática Atual. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Gramática Atual. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
     create: {
@@ -126,7 +135,8 @@ async function main() {
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
       teacher: "Professora: Martinha",
-      description: "Gramática Atual. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Gramática Atual. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -136,7 +146,8 @@ async function main() {
     where: { code: "R1" },
     update: {
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
     create: {
@@ -151,7 +162,8 @@ async function main() {
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -164,7 +176,8 @@ async function main() {
       startTime: "19:30",
       endTime: "21:00",
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
     create: {
@@ -179,7 +192,8 @@ async function main() {
       currentCapacity: 0,
       shift: ClassShift.NIGHT,
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -250,7 +264,8 @@ async function main() {
     where: { code: "R3" },
     update: {
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
       dayOfWeek: "Sábado",
       startTime: "11:00",
@@ -270,7 +285,8 @@ async function main() {
       currentCapacity: 0,
       shift: ClassShift.MORNING,
       teacher: "Professora: Martinha",
-      description: "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -280,7 +296,8 @@ async function main() {
     where: { code: "R5" },
     update: {
       teacher: "Professora: Martinha",
-      description: "Redação para 6° e 7° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h cada) por módulo.",
+      description:
+        "Redação para 6° e 7° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h cada) por módulo.",
       location: "Presencial - Goiânia",
       dayOfWeek: "Sábado",
       startTime: "08:00",
@@ -300,7 +317,8 @@ async function main() {
       currentCapacity: 0,
       shift: ClassShift.MORNING,
       teacher: "Professora: Martinha",
-      description: "Redação para 6° e 7° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h cada) por módulo.",
+      description:
+        "Redação para 6° e 7° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -310,7 +328,8 @@ async function main() {
     where: { code: "R6" },
     update: {
       teacher: "Professora: Martinha",
-      description: "Redação para 8° e 9° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Redação para 8° e 9° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
       dayOfWeek: "Sábado",
       startTime: "09:00",
@@ -330,7 +349,8 @@ async function main() {
       currentCapacity: 0,
       shift: ClassShift.MORNING,
       teacher: "Professora: Martinha",
-      description: "Redação para 8° e 9° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h30 cada) por módulo.",
+      description:
+        "Redação para 8° e 9° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
