@@ -25,8 +25,8 @@ export default function Step6({ onNext, onBack }: Step6Props) {
   const [availableDates, setAvailableDates] = useState<Date[]>([])
 
   useEffect(() => {
-    // Gerar datas disponíveis a partir de 06/01/2026
-    const startDate = new Date(2026, 0, 6)
+    // Gerar datas disponíveis a partir de 22/01/2026 (depois do dia 21/01/2026)
+    const startDate = new Date(2026, 0, 22) // 22 de janeiro de 2026
     const dates: Date[] = []
     for (let i = 0; i < 30; i++) {
       const date = addDays(startDate, i)
@@ -254,7 +254,7 @@ export default function Step6({ onNext, onBack }: Step6Props) {
                 <div>
                   <div className="font-semibold text-sm mb-1">Localização</div>
                   <div className="text-sm text-gray-700">
-                    Rua F, R. L-01, Qd.159, Goiânia - GO, 74475-060
+                    Rua F QD 159 LT 1. Sala 1. CEP: 74.475-060. Parque Tremendão. Goiânia - Goiás
                   </div>
                 </div>
               </div>

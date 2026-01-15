@@ -112,7 +112,7 @@ export default function Step8({ onBack }: Step8Props) {
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <MapPin className="h-4 w-4 text-gray-400" />
-                <span>Unidade Central - Sala 104</span>
+                <span>Rua F QD 159 LT 1. Sala 1. CEP: 74.475-060. Parque Tremendão. Goiânia - Goiás</span>
               </div>
             </CardContent>
           </Card>
