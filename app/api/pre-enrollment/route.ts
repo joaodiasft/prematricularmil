@@ -4,8 +4,8 @@ import { authOptions } from "@/lib/auth"
 import { prisma } from "@/lib/prisma"
 import { PreEnrollmentStatus, StudyObjective, WritingLevel, PaymentMethod, ClassShift } from "@prisma/client"
 
-// Função auxiliar para gerar token único com retry
-async function generateUniqueToken(retries = 5): Promise<string> {
+// Função auxiliar para gerar token único com retry (mantém padrão R00001, R00002, etc.)
+async function generateUniqueToken(retries = 10): Promise<string> {
   for (let attempt = 0; attempt < retries; attempt++) {
     try {
       // Buscar o último token de forma atômica
@@ -22,19 +22,29 @@ async function generateUniqueToken(retries = 5): Promise<string> {
         }
       }
 
-      const token = `R${String(tokenNumber).padStart(5, "0")}`
+      // Tentar encontrar um número disponível incrementando até encontrar um token livre
+      let attemptsToFind = 0
+      const maxAttemptsToFind = 100 // Limite de tentativas para encontrar número disponível
+      
+      while (attemptsToFind < maxAttemptsToFind) {
+        const token = `R${String(tokenNumber).padStart(5, "0")}`
+        
+        // Verificar se o token já existe
+        const exists = await prisma.preEnrollment.findUnique({
+          where: { token },
+          select: { id: true },
+        })
 
-      // Verificar se o token já existe
-      const exists = await prisma.preEnrollment.findUnique({
-        where: { token },
-        select: { id: true },
-      })
+        if (!exists) {
+          return token
+        }
 
-      if (!exists) {
-        return token
+        // Se existe, tentar o próximo número
+        tokenNumber++
+        attemptsToFind++
       }
 
-      // Se existe, tentar novamente com delay
+      // Se não encontrou em 100 tentativas, aguardar e tentar novamente
       if (attempt < retries - 1) {
         await new Promise((resolve) => setTimeout(resolve, 100 * (attempt + 1)))
       }
@@ -46,10 +56,72 @@ async function generateUniqueToken(retries = 5): Promise<string> {
     }
   }
 
-  // Se todas as tentativas falharam, usar timestamp + random como fallback
-  const timestamp = Date.now()
-  const random = Math.floor(Math.random() * 1000)
-  return `R${String(timestamp).slice(-8)}${String(random).padStart(3, "0")}`
+  // Se todas as tentativas falharam, buscar o maior número e incrementar
+  // Isso garante que sempre mantenha o padrão R00001, R00002, etc.
+  try {
+    // Buscar todos os tokens e encontrar o maior número
+    const allEnrollments = await prisma.preEnrollment.findMany({
+      select: { token: true },
+    })
+
+    let maxNumber = 0
+    if (allEnrollments.length > 0) {
+      const numbers = allEnrollments
+        .map(t => {
+          const num = parseInt(t.token.replace("R", ""))
+          return isNaN(num) ? 0 : num
+        })
+        .filter(n => n > 0)
+      
+      if (numbers.length > 0) {
+        maxNumber = Math.max(...numbers)
+      }
+    }
+
+    // Incrementar e tentar encontrar um número disponível
+    let nextNumber = maxNumber + 1
+    let attempts = 0
+    const maxAttempts = 1000 // Limite razoável para busca
+
+    while (attempts < maxAttempts) {
+      const token = `R${String(nextNumber).padStart(5, "0")}`
+      
+      const exists = await prisma.preEnrollment.findUnique({
+        where: { token },
+        select: { id: true },
+      })
+
+      if (!exists) {
+        return token
+      }
+
+      nextNumber++
+      attempts++
+    }
+
+    // Se não encontrou em 1000 tentativas, retornar o próximo número mesmo assim
+    // (caso extremo, mas mantém o padrão)
+    return `R${String(nextNumber).padStart(5, "0")}`
+  } catch (error) {
+    console.error("Erro ao buscar último token para fallback:", error)
+    // Último recurso: buscar o último token criado
+    try {
+      const last = await prisma.preEnrollment.findFirst({
+        orderBy: { createdAt: "desc" },
+        select: { token: true },
+      })
+      if (last) {
+        const num = parseInt(last.token.replace("R", ""))
+        if (!isNaN(num)) {
+          return `R${String(num + 1).padStart(5, "0")}`
+        }
+      }
+    } catch (e) {
+      console.error("Erro ao buscar último token:", e)
+    }
+    // Último recurso absoluto: começar do 1
+    return "R00001"
+  }
 }
 
 export async function POST(request: Request) {
