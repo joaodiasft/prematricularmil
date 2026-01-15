@@ -14,6 +14,7 @@
     "db:seed": "tsx prisma/seed.ts",
     "create-admin": "node scripts/create-admin.js",
     "reset-tokens": "node scripts/reset-tokens.js",
+    "limpar-incompletas": "tsx scripts/limpar-pre-matriculas-incompletas.ts",
     "check": "node check-setup.js",
     "setup": "npm install && npm run db:generate && node check-setup.js"
   },

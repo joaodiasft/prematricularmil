@@ -8,17 +8,24 @@ import { PreEnrollmentStatus, StudyObjective, WritingLevel, PaymentMethod, Class
 async function generateUniqueToken(retries = 10): Promise<string> {
   for (let attempt = 0; attempt < retries; attempt++) {
     try {
-      // Buscar o último token de forma atômica
-      const lastEnrollment = await prisma.preEnrollment.findFirst({
-        orderBy: { createdAt: "desc" },
+      // Buscar o maior número de token (não apenas o último criado)
+      // Isso garante que mesmo após limpeza, a sequência continue corretamente
+      const allEnrollments = await prisma.preEnrollment.findMany({
         select: { token: true },
       })
 
       let tokenNumber = 1
-      if (lastEnrollment) {
-        const lastNumber = parseInt(lastEnrollment.token.replace("R", ""))
-        if (!isNaN(lastNumber)) {
-          tokenNumber = lastNumber + 1
+      if (allEnrollments.length > 0) {
+        const numbers = allEnrollments
+          .map(e => {
+            const num = parseInt(e.token.replace("R", ""))
+            return isNaN(num) ? 0 : num
+          })
+          .filter(n => n > 0)
+        
+        if (numbers.length > 0) {
+          const maxNumber = Math.max(...numbers)
+          tokenNumber = maxNumber + 1
         }
       }
 
