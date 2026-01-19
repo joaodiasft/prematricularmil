@@ -271,7 +271,7 @@ async function main() {
       startTime: "11:00",
       endTime: "12:30",
       educationLevel: EducationLevel.HIGH_SCHOOL,
-      shift: ClassShift.MORNING,
+      shift: ClassShift.AFTERNOON,
     } as any,
     create: {
       code: "R3",
@@ -283,10 +283,42 @@ async function main() {
       endTime: "12:30",
       maxCapacity: 30,
       currentCapacity: 0,
-      shift: ClassShift.MORNING,
+      shift: ClassShift.AFTERNOON,
       teacher: "Professora: Martinha",
       description:
         "Redação, temas atualizados. Focado em ENEM e vestibulares. 4 encontros presenciais (1h30 cada) por módulo.",
+      location: "Presencial - Goiânia",
+    } as any,
+  });
+
+  // R4 - Redação para Concursos (Sexta - Ensino Médio)
+  const r4 = await prisma.class.upsert({
+    where: { code: "R4" },
+    update: {
+      teacher: "Professora: Martinha",
+      description:
+        "Redação para Concursos Públicos. Temas atualizados focados em provas de concursos. 4 encontros presenciais (1h30 cada) por módulo.",
+      location: "Presencial - Goiânia",
+      dayOfWeek: "Sexta-feira",
+      startTime: "19:00",
+      endTime: "20:30",
+      educationLevel: EducationLevel.HIGH_SCHOOL,
+      shift: ClassShift.NIGHT,
+    } as any,
+    create: {
+      code: "R4",
+      name: "Redação para Concursos",
+      subjectId: redacao.id,
+      educationLevel: EducationLevel.HIGH_SCHOOL,
+      dayOfWeek: "Sexta-feira",
+      startTime: "19:00",
+      endTime: "20:30",
+      maxCapacity: 30,
+      currentCapacity: 0,
+      shift: ClassShift.NIGHT,
+      teacher: "Professora: Martinha",
+      description:
+        "Redação para Concursos Públicos. Temas atualizados focados em provas de concursos. 4 encontros presenciais (1h30 cada) por módulo.",
       location: "Presencial - Goiânia",
     } as any,
   });
@@ -295,6 +327,7 @@ async function main() {
   const r5 = await prisma.class.upsert({
     where: { code: "R5" },
     update: {
+      name: "Redação (6° e 7° ano)",
       teacher: "Professora: Martinha",
       description:
         "Redação para 6° e 7° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h cada) por módulo.",
@@ -307,7 +340,7 @@ async function main() {
     } as any,
     create: {
       code: "R5",
-      name: "Redação",
+      name: "Redação (6° e 7° ano)",
       subjectId: redacao.id,
       educationLevel: EducationLevel.MIDDLE_SCHOOL,
       dayOfWeek: "Sábado",
@@ -327,6 +360,7 @@ async function main() {
   const r6 = await prisma.class.upsert({
     where: { code: "R6" },
     update: {
+      name: "Redação (8° e 9° ano)",
       teacher: "Professora: Martinha",
       description:
         "Redação para 8° e 9° ano do Ensino Fundamental. Temas atualizados. 4 encontros presenciais (1h30 cada) por módulo.",
@@ -339,7 +373,7 @@ async function main() {
     } as any,
     create: {
       code: "R6",
-      name: "Redação",
+      name: "Redação (8° e 9° ano)",
       subjectId: redacao.id,
       educationLevel: EducationLevel.MIDDLE_SCHOOL,
       dayOfWeek: "Sábado",
